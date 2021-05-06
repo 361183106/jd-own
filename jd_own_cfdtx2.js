@@ -15,6 +15,11 @@
 
   hostname = wq.jd.com, m.jingxi.com
 
+ ============QuantumultX==============
+ [task_local]
+ #京豆变动通知
+ 0 0 * * * https://gitee.com/Misyi/jd-own/raw/master/jd_own_cfdtx2.js, tag=财富岛提现, img-url=https://raw.githubusercontent.com/Orz-3/task/master/jd.png, enabled=true
+
   # quanx
   [rewrite_local]
   ^https\:\/\/wq\.jd\.com\/cubeactive\/farm\/dotask url script-request-header https://raw.githubusercontent.com/whyour/hundun/master/quanx/jx_tokens.js
