@@ -1,11 +1,6 @@
 /*
-抽盲盒赢千万京豆
-活动时间：2021-05-25 到 2021-06-03
-更新时间：2021-05-24 014:55
-脚本兼容: QuantumultX, Surge,Loon, JSBox, Node.js
-=================================Quantumultx=========================
-[task_local]
-0 0-23/1 * * * https://gitee.com/lxk0301/jd_scripts/raw/master/jd_city.js, tag=抽盲盒赢千万京豆, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+[Script]
+cron "0 0-23/1 * * *" script-path=,tag=抽盲盒赢千万京豆
 */
 const $ = new Env("抽盲盒赢千万京豆");
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
