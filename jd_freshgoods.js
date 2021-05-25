@@ -1,6 +1,7 @@
 /*
+================Loon==============
 [Script]
-cron "0 0-23/1 * * *" script-path=,tag=抽盲盒赢千万京豆
+cron "0 0-23/1 * * *" script-path=https://gitee.com/misyi/jd-own/raw/master/jd_freshgoods.js, tag=抽盲盒赢千万京豆
 */
 const $ = new Env("抽盲盒赢千万京豆");
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
