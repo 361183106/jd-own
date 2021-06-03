@@ -32,9 +32,9 @@ const $ = new Env('赚多多');
 let status;
 status = (status = ($.getval("zduoduostatus") || "1") ) > 1 ? `${status}` : ""; // 账号扩展字符
 const zduoduobodyArr = [], zduoduohdArr = [],zduoduourlArr = [],zduoduocount = ''
-let zduoduobody = $.getdata('zduoduobody')
-let zduoduohd = $.getdata('zwbhd')
-let zduoduourl = $.getdata('zduoduourl')
+let zduoduobody = process.env.zduoduobody
+let zduoduohd = process.env.zduoduohd
+let zduoduourl = process.env.zduoduourl
 let tz = ($.getval('tz') || '1');//通知
 let DD = RT(20000, 35000)
 let aid = '',bid = '',cid = '',did = '',sign = '',ct = '',token = '',device = ''
