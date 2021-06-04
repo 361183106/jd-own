@@ -24,7 +24,7 @@ let status;
 status = (status = ($.getval("zduoduostatus") || "1")) > 1 ? `${status}` : ""; // 账号扩展字符
 
 const zduoduobodyArr = process.env.zduoduobody.split('|||')
-    , zduoduohdArr = process.env.zduoduobody.zduoduohd.split('|||')
+    , zduoduohdArr = process.env.zduoduohd.split('|||')
 
 let zduoduobody = $.getdata('zduoduobody')
 let zduoduohd = $.getdata('zwbhd')
