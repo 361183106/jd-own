@@ -59,6 +59,16 @@ $.tokenArr = [
     '{"smp":"470f6aec25e7ecee08b991b9806b9ca9","active":"jdnc_1_xiaoxiongbing210123_2","joinnum":1}',
     '{"smp":"314f9bbba3b267a8bec9e9f6e58fcb29","active":"jdnc_1_qicheng210315_2","joinnum":1}',
     '{"smp":"88bc321729ccaa3cbe5bc1a1ecee1d18","active":"jdnc_1_papaya210315_2","joinnum":2}',
+    '{"smp":"88bc321729ccaa3cbe5bc1a1ecee1d18","active":"jdnc_1_papaya210315_2","joinnum":2}',
+    '{"smp":"88bc321729ccaa3cbe5bc1a1ecee1d18","active":"jdnc_1_papaya210315_2","joinnum":2}',
+    '{"smp":"88bc321729ccaa3cbe5bc1a1ecee1d18","active":"jdnc_1_papaya210315_2","joinnum":2}',
+    '{"smp":"88bc321729ccaa3cbe5bc1a1ecee1d18","active":"jdnc_1_papaya210315_2","joinnum":2}',
+    '{"smp":"88bc321729ccaa3cbe5bc1a1ecee1d18","active":"jdnc_1_papaya210315_2","joinnum":2}',
+    '{"smp":"88bc321729ccaa3cbe5bc1a1ecee1d18","active":"jdnc_1_papaya210315_2","joinnum":2}',
+    '{"smp":"88bc321729ccaa3cbe5bc1a1ecee1d18","active":"jdnc_1_papaya210315_2","joinnum":2}',
+    '{"smp":"88bc321729ccaa3cbe5bc1a1ecee1d18","active":"jdnc_1_papaya210315_2","joinnum":2}',
+    '{"smp":"88bc321729ccaa3cbe5bc1a1ecee1d18","active":"jdnc_1_papaya210315_2","joinnum":2}',
+    '{"smp":"88bc321729ccaa3cbe5bc1a1ecee1d18","active":"jdnc_1_papaya210315_2","joinnum":2}',
     '{"smp":"c00f068cf0ea9ad5d1ff2935df271a4a","active":"jdnc_1_ganju210315_2","joinnum":1}'
 ];
 $.currentToken = {'farm_jstoken': '', 'phoneid': '', 'timestamp': ''};
