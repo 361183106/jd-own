@@ -10,6 +10,10 @@
 # https://www.bilibili.com/read/cv7437179, 搜索 authcookie 后面的全部拷贝就可以
 export IQIYI_COOKIE=''
 
+# 喜马拉雅， 多个账号用 ||| 分割
+export XIMALAYA_COOKIE=''
+
+
 
 # ------- 赚多多 ---------- 
 # 多个账号用|||分割
