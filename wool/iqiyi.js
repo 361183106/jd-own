@@ -45,6 +45,7 @@ var $nobyda = nobyda();
         await Checkin();
         await Lottery(500);
         await $nobyda.time();
+        $nobyda.notify("爱奇艺", "", $nobyda.data)
     } else {
         console.log("爱奇艺会员", "", "签到终止, 未获取Cookie");
     }
@@ -65,7 +66,9 @@ function login() {
             const Details = LogDetails ? data ? `response:\n${data}` : '' : ''
             if (!error && data.match(/\"text\":\"\d.+?\u5230\u671f\"/)) {
                 $nobyda.expire = data.match(/\"text\":\"(\d.+?\u5230\u671f)\"/)[1]
-                console.log(`爱奇艺-查询成功: ${$nobyda.expire} ${Details}`)
+                let expire_txt = `爱奇艺-查询成功: ${$nobyda.expire} ${Details}\n`
+                $nobyda.data = expire_txt
+                console.log(expire_txt)
             } else {
                 console.log(`爱奇艺-查询失败${error || ': 无到期数据 ⚠️'} ${Details}`)
             }
@@ -82,7 +85,7 @@ function Checkin() {
         }
         $nobyda.get(URL, function(error, response, data) {
             if (error) {
-                $nobyda.data = "签到失败: 接口请求出错 ‼️"
+                $nobyda.data += "签到失败: 接口请求出错 ‼️"
                 console.log(`爱奇艺-${$nobyda.data} ${error}`)
             } else {
                 const obj = JSON.parse(data)
@@ -92,14 +95,14 @@ function Checkin() {
                         var AwardName = obj.data.signInfo.data.rewards[0].name;
                         var quantity = obj.data.signInfo.data.rewards[0].value;
                         var continued = obj.data.signInfo.data.continueSignDaysSum;
-                        $nobyda.data = "签到成功: " + AwardName + quantity + ", 已连签" + continued + "天 🎉"
+                        $nobyda.data += "签到成功: " + AwardName + quantity + ", 已连签" + continued + "天 🎉"
                         console.log(`爱奇艺-${$nobyda.data} ${Details}`)
                     } else {
-                        $nobyda.data = "签到失败: " + obj.data.signInfo.msg + " ⚠️"
+                        $nobyda.data += "签到失败: " + obj.data.signInfo.msg + " ⚠️"
                         console.log(`爱奇艺-${$nobyda.data} ${Details}`)
                     }
                 } else {
-                    $nobyda.data = "签到失败: Cookie无效 ⚠️"
+                    $nobyda.data += "签到失败: Cookie无效 ⚠️"
                     console.log(`爱奇艺-${$nobyda.data} ${Details}`)
                 }
             }
@@ -262,7 +265,9 @@ function nobyda() {
     const log = (message) => console.log(message)
     const time = () => {
         const end = ((Date.now() - start) / 1000).toFixed(2)
-        return console.log('\n签到用时: ' + end + ' 秒')
+        let time = '\n签到用时: ' + end + ' 秒';
+        $nobyda.data += time
+        return console.log(time)
     }
     const done = (value = {}) => {
         if (isQuanX) return $done(value)
