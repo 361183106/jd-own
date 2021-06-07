@@ -25,7 +25,7 @@ export IQIYI_COOKIE = ''
 [task_local]
 10 7 * * * https://gitee.com/misyi/jd-own/raw/master/wool/iqiyi.js, tag=爱奇艺签到, enabled=true
 */
-
+const $ = new Env('爱奇艺签到');
 var cookie = process.env.IQIYI_COOKIE
 
 var LogDetails = false; // 响应日志
