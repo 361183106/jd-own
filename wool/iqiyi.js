@@ -21,50 +21,12 @@ JsBox, Node.js用户抓取Cookie说明：
 https://www.bilibili.com/read/cv7437179, 搜索 authcookie 后面的全部拷贝就可以
 
 export IQIYI_COOKIE = ''
+
+[task_local]
+10 7 * * * https://gitee.com/misyi/jd-own/raw/master/wool/iqiyi.js, tag=爱奇艺签到, enabled=true
 */
 
 var cookie = process.env.IQIYI_COOKIE
-
-/*********************
- QuantumultX 远程脚本配置:
- **********************
- [task_local]
- # 爱奇艺会员签到
- 0 9 * * * https://raw.githubusercontent.com/NobyDa/Script/master/iQIYI-DailyBonus/iQIYI.js
-
- [rewrite_local]
- # 获取Cookie
- ^https?:\/\/iface(\d)?\.iqiyi\.com\/ url script-request-header https://raw.githubusercontent.com/NobyDa/Script/master/iQIYI-DailyBonus/iQIYI.js
-
- [mitm]
- hostname= ifac*.iqiyi.com
-
- **********************
- Surge 4.2.0+ 脚本配置:
- **********************
- [Script]
- 爱奇艺签到 = type=cron,cronexp=0 9 * * *,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/iQIYI-DailyBonus/iQIYI.js
-
- 爱奇艺获取Cookie = type=http-request,pattern=^https?:\/\/iface(\d)?\.iqiyi\.com\/,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/iQIYI-DailyBonus/iQIYI.js
-
- [MITM]
- hostname= ifac*.iqiyi.com
-
- ************************
- Loon 2.1.0+ 脚本配置:
- ************************
-
- [Script]
- # 爱奇艺签到
- cron "0 9 * * *" script-path=https://raw.githubusercontent.com/NobyDa/Script/master/iQIYI-DailyBonus/iQIYI.js
-
- # 获取Cookie
- http-request ^https?:\/\/iface(\d)?\.iqiyi\.com\/ script-path=https://raw.githubusercontent.com/NobyDa/Script/master/iQIYI-DailyBonus/iQIYI.js
-
- [Mitm]
- hostname= ifac*.iqiyi.com
-
- */
 
 var LogDetails = false; // 响应日志
 var out = 0; // 超时 (毫秒) 如填写, 则不少于3000
