@@ -19,7 +19,7 @@
 
 
  [task_local]
- 0 * * * * https://raw.githubusercontent.com/misyili/jd-own/master/jd_jdxmc.js, tag=京喜牧场, enabled=true
+ 0 * * * * https://raw.githubusercontent.com/misyili/jd-own/master/jd_jxmc.js, tag=京喜牧场, enabled=true
 
  *
  */
