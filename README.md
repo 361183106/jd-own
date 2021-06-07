@@ -8,7 +8,7 @@
 ######################### 其他账号羊毛 #########################
 # ------- 爱奇艺签到 ---------- 
 # https://www.bilibili.com/read/cv7437179, 搜索 authcookie 后面的全部拷贝就可以
-export IQIYI_COOKIE='ad0QJ5svWMrH5BCIOjEWHh10p4q6rHSFHm3CwKxJMrcm1UlVdB62B6zsxgi9He6gOrSjdf&userId=1084828298&agenttype=1&agentversion=0&appKey=basic_pcw&appver=0&srcplatform=1&typeCode=point&verticalCode=iQIYI&sign=d1317913005948f29a860b7f97fd005d'
+export IQIYI_COOKIE=''
 
 
 # ------- 赚多多 ---------- 
