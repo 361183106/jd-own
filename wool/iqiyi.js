@@ -66,11 +66,10 @@ function login() {
             const Details = LogDetails ? data ? `response:\n${data}` : '' : ''
             if (!error && data.match(/\"text\":\"\d.+?\u5230\u671f\"/)) {
                 $nobyda.expire = data.match(/\"text\":\"(\d.+?\u5230\u671f)\"/)[1]
-                let expire_txt = `爱奇艺-查询成功: ${$nobyda.expire} ${Details}\n`
-                $nobyda.data = expire_txt
-                console.log(expire_txt)
+                console.log(`查询成功: ${$nobyda.expire} ${Details}`)
+                $nobyda.data = `查询成功: ${$nobyda.expire} ${Details}\n`
             } else {
-                console.log(`爱奇艺-查询失败${error || ': 无到期数据 ⚠️'} ${Details}`)
+                console.log(`查询失败${error || ': 无到期数据 ⚠️'} ${Details}`)
             }
             resolve()
         })
@@ -95,11 +94,13 @@ function Checkin() {
                         var AwardName = obj.data.signInfo.data.rewards[0].name;
                         var quantity = obj.data.signInfo.data.rewards[0].value;
                         var continued = obj.data.signInfo.data.continueSignDaysSum;
-                        $nobyda.data += "签到成功: " + AwardName + quantity + ", 已连签" + continued + "天 🎉"
-                        console.log(`爱奇艺-${$nobyda.data} ${Details}`)
+                        let message = "签到成功: " + AwardName + quantity + ", 已连签" + continued + "天 🎉";
+                        $nobyda.data += message
+                        console.log(message + ` ${Details}`)
                     } else {
-                        $nobyda.data += "签到失败: " + obj.data.signInfo.msg + " ⚠️"
-                        console.log(`爱奇艺-${$nobyda.data} ${Details}`)
+                        let message = "签到失败: " + obj.data.signInfo.msg + " ⚠️"
+                        $nobyda.data += message
+                        console.log(message + ` ${Details}`)
                     }
                 } else {
                     $nobyda.data += "签到失败: Cookie无效 ⚠️"
@@ -204,7 +205,7 @@ function nobyda() {
     const notify = (title, subtitle, message) => {
         if (isQuanX) $notify(title, subtitle, message)
         if (isSurge) $notification.post(title, subtitle, message)
-        if (isNode) require('../sendNotify').sendNotify(title, subtitle + message);
+        if (isNode) require('./sendNotify').sendNotify(title, subtitle + message);
         if (isJSBox) $push.schedule({
             title: title,
             body: subtitle ? subtitle + "\n" + message : message
