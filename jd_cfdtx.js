@@ -6,17 +6,9 @@
 脚本兼容: QuantumultX, Surge,Loon, JSBox, Node.js
  获取Token方式：
   打开【❗️京喜农场❗️】，手动任意完成<工厂任务>、<签到任务>、<金牌厂长任务>一项，提示获取cookie成功即可，然后退出跑任务脚本
-=================================Quantumultx=========================
 [task_local]
-#翻翻乐提现
-0 0 * * * https://raw.githubusercontent.com/jiulan/platypus/main/scripts/jx_cfdtx.js, tag=京喜财富岛提现, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
-=================================Loon===================================
-[Script]
-cron "0 0 * * *" script-path=https://raw.githubusercontent.com/jiulan/platypus/main/scripts/jx_cfdtx.js,tag=京喜财富岛提现
-===================================Surge================================
-京喜财富岛提现 = type=cron,cronexp="0 0 * * *",wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/jiulan/platypus/main/scripts/jx_cfdtx.js
-====================================小火箭=============================
-京喜财富岛提现 = type=cron,script-path=https://raw.githubusercontent.com/jiulan/platypus/main/scripts/jx_cfdtx.js, cronexpr="0 0 * * *", timeout=3600, enable=true
+#京喜财富岛提现
+0-2 0 * * * https://gitee.com/misyi/jd-own/raw/master/jd_cfdtx.js, tag=京喜财富岛提现, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
  */
 const $ = new Env("京喜财富岛提现");
 const JD_API_HOST = "https://m.jingxi.com/";
