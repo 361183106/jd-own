@@ -20,6 +20,7 @@ export zduoduohd=''
 
 */
 const $ = new Env('赚多多');
+const notify = $.isNode() ? require('./sendNotify') : '';
 let status;
 status = (status = ($.getval("zduoduostatus") || "1")) > 1 ? `${status}` : ""; // 账号扩展字符
 
@@ -90,6 +91,7 @@ function zduoduoqd(timeout = 0) {
                 } else {
                     console.log('\n ' + result.message)
                     $.message += result.message + '\n'
+                    notify.sendNotify("赚多多签到失败", result.message);
                 }
             } catch (e) {
                 //$.logErr(e, resp);
