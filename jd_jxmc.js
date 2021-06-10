@@ -27,7 +27,7 @@
 const $ = new Env("京喜牧场");
 const JD_API_HOST = "https://m.jingxi.com";
 const notify = $.isNode() ? require('./sendNotify') : '';
-const jdCookieNode = $.isNode() ? require("./jdCookie.js") : "";
+const jdCookieNode = $.isNode() ? require("./lxk/jdCookie.js") : "";
 $.CryptoJS = $.isNode() ? require('crypto-js') : CryptoJS;
 $.showLog = $.getdata("mc_showLog") ? $.getdata("mc_showLog") === "true" : false;
 $.result = [];
