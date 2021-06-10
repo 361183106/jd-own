@@ -9,7 +9,7 @@ cron 1 7,12,19 * * * jd_beauty.js
 const $ = new Env('美丽研究院');
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
-const jdCookieNode = $.isNode() ? require('../jdCookie.js') : '';
+const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const WebSocket = require('ws');
 //const WebSocket = $.isNode() ? require('websocket').w3cwebsocket: SockJS;
 let jdNotify = true;//是否关闭通知，false打开通知推送，true关闭通知推送

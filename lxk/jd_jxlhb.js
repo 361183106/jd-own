@@ -21,7 +21,7 @@ cron "4 10 * * *" script-path=jd_jxlhb.js,tag=京喜领88元红包
  */
 const $ = new Env('京喜领88元红包');
 const notify = $.isNode() ? require('./sendNotify') : {};
-const jdCookieNode = $.isNode() ? require('../jdCookie.js') : {};
+const jdCookieNode = $.isNode() ? require('./jdCookie.js') : {};
 let cookiesArr = [], cookie = '';
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {

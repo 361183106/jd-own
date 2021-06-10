@@ -48,7 +48,7 @@ const inviteCodes = [
   '-OvElMzqeyeGBWazWYjI1Q==',
   'GFwo6PntxDHH95ZRzZ5uAg=='
 ];
-const jdCookieNode = $.isNode() ? require('../jdCookie.js') : '';
+const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 $.tuanIds = [];
 $.appId = 10001;
 if ($.isNode()) {
