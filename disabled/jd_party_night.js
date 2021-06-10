@@ -19,7 +19,7 @@ cron "0 15-19/1 * * *" script-path=https://gitee.com/lxk0301/jd_scripts/raw/mast
 沸腾之夜 = type=cron,script-path=https://gitee.com/lxk0301/jd_scripts/raw/master/jd_party_night.js, cronexpr="0 15-19/1 * * *", timeout=3600, enable=true
  */
 const $ = new Env('沸腾之夜');
-const notify = $.isNode() ? require('../sendNotify') : '';
+const notify = $.isNode() ? require('./sendNotify') : '';
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 $.inviteCodeList = [];
 let cookiesArr = [

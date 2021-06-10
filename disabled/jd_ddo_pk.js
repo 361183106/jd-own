@@ -26,7 +26,7 @@ $.toStr = (t, e = null) => {
         return e
     }
 }
-const notify = $.isNode() ? require("../sendNotify") : "";
+const notify = $.isNode() ? require("./sendNotify") : "";
 const jdCookieNode = $.isNode() ? require("./jdCookie.js") : "";
 const sck = $.isNode() ? "set-cookie" : "Set-Cookie";
 let cookiesArr = [],
