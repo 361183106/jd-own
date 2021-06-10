@@ -27,7 +27,7 @@ const $ = new Env('京东极速版红包');
 
 const notify = $.isNode() ? require('./sendNotify') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
-const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
+const jdCookieNode = $.isNode() ? require('../jdCookie.js') : '';
 let cookiesArr = [], cookie = '', message;
 const linkId = "AkOULcXbUA_8EAPbYLLMgg";
 const signLinkId = '9WA12jYGulArzWS7vcrwhw';

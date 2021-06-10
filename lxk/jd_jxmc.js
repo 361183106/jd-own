@@ -29,7 +29,7 @@ cron "20 0-23/3 * * *" script-path=jd_jxmc.js,tag=惊喜牧场
 });
 const $ = new Env('惊喜牧场');
 const notify = $.isNode() ? require('./sendNotify') : '';
-const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
+const jdCookieNode = $.isNode() ? require('../jdCookie.js') : '';
 $.inviteCodeList = [];
 let cookiesArr = [];
 $.appId = 10028;

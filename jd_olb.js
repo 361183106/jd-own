@@ -5,7 +5,7 @@
 0 7 * * * https://gitee.com/misyi/jd-own/raw/master/jd_olb.js, tag=抽盲盒赢千万, enabled=true
  */
 const $ = new Env('欧乐b');
-const jdCookieNode = $.isNode() ? require('./lxk/jdCookie.js') : '';
+const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
 const cp = $.isNode() ? require('child_process') : '';
 let cookiesArr = [], cookie = '', message = '';
