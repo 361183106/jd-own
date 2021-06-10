@@ -22,8 +22,8 @@ cron "5 7 * * *" script-path=jd_xg.js,tag=小鸽有礼
 小鸽有礼 = type=cron,script-path=jd_xg.js, cronexpr="5 7 * * *", timeout=200, enable=true
  */
 const $ = new Env('小鸽有礼');
-const notify = $.isNode() ? require('../sendNotify') : '';
-const jdCookieNode = $.isNode() ? require('../jdCookie.js') : '';
+const notify = $.isNode() ? require('./sendNotify') : '';
+const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 //Node.js用户请在jdCookie.js处填写京东ck;
 //IOS等用户直接用NobyDa的jd cookie
 let cookiesArr = [], cookie = '', message;
