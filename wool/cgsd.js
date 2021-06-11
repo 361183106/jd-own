@@ -17,7 +17,7 @@ Tg群：https://t.me/tom_210120
 cron自己改 每天运行一次即可
 
 [task_local]
-10 4 * * * https://gitee.com/misyi/jd-own/raw/master/wool/cgsd.js, tag=草根时代, enabled=true
+16 9 * * * https://gitee.com/misyi/jd-own/raw/master/wool/cgsd.js, tag=草根时代, enabled=true
 
 */
 
