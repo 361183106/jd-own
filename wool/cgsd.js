@@ -16,6 +16,9 @@ Tg群：https://t.me/tom_210120
 
 cron自己改 每天运行一次即可
 
+[task_local]
+10 4 * * * https://gitee.com/misyi/jd-own/raw/master/wool/cgsd.js, tag=草根时代, enabled=true
+
 */
 
 
@@ -23,17 +26,25 @@ const $ = new Env('草根时代');
 let status;
 status = (status = ($.getval("cgsdstatus") || "1") ) > 1 ? `${status}` : ""; // 账号扩展字符
 const cgsdbodyArr = [], cgsdhdArr = [],cgsdurlArr = [],cgsdcount = ''
+
+let sp1 = process.env.cgsd_sp1;//视频1
+let sp2 = process.env.cgsd_sp2;//视频2
+let sp3 = process.env.cgsd_sp3;//视频3
+let DD = RT(28000, 35000)
+let accessToken = process.env.cgsd_accessToken,token = process.env.cgsd_token
+    ,userid = process.env.cgsd_userid,headers33 = ''
+
 let cgsdbody = $.getdata('cgsdbody')
 let cgsdhd = $.getdata('zwbhd')
 let cgsdurl = $.getdata('cgsdurl')
 let tz = ($.getval('tz') || '1');//通知
 let ckck = ($.getval('ckck') || '');//ck
-let sp1 = ($.getval('sp1') || '');//视频1
-let sp2 = ($.getval('sp2') || '');//视频2
-let sp3 = ($.getval('sp3') || '');//视频3
-let DD = RT(28000, 35000)
-let accessToken = '',token = '',userid = '',headers33 = ''
+// let sp1 = ($.getval('sp1') || '');//视频1
+// let sp2 = ($.getval('sp2') || '');//视频2
+// let sp3 = ($.getval('sp3') || '');//视频3
 $.message = ''
+const notify = $.isNode() ? require('./sendNotify') : '';
+
 
 
 
@@ -166,6 +177,7 @@ function cgsddri(timeout = 0) {
 
                 }else{
                     $.log('登入失败')
+                    notify.sendNotify("登入失败", JSON.stringify(result))
                 }
             } catch (e) {
 

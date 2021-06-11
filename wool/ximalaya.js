@@ -35,7 +35,9 @@ let noticeMessage = '';
     .catch((e) => $.logErr(e))
     .finally(() => {
         $.done()
-        notify.sendNotify("喜马拉雅签到", noticeMessage)
+        if (noticeMessage) {
+            notify.sendNotify("喜马拉雅签到", noticeMessage)
+        }
     })
 
 function signapp() {
