@@ -1,5 +1,5 @@
 /*
-16 8-23 * * * https://gitee.com/misyi/jd-own/raw/master/wool/ttayn_hc.js, tag=天天爱养牛快速合成, enabled=true
+16 8-23 * * * https://gitee.com/misyi/jd-own/raw/master/wool/ttayn_autoup.js, tag=天天爱养牛快速合成, enabled=true
 */
 const $ = new Env('天天爱养牛快速合成');
 // const notify = $.isNode() ? require('./sendNotify') : '';
@@ -18,27 +18,33 @@ $.message = ''
         console.log(`没有配置账号，不执行脚本`)
         return
     }
-    console.log(`------------- 共 1 个账号-------------\n`)
+
     await cow_info(true)
+    let count = 1;
+    console.log(`------------- 开始操作 -------------\n`)
     while (true && buy_level && !reFlag) {
-        if (Object.keys(process_map).length >= 1) {
+        await $.wait(2397)
+        // console.log(`开始第 ${count} 波操作！`)
+        let length = Object.keys(process_map).length;
+        if ((length < 1) || (length >= 1 && process_map['null'])) {
+            await cow_buy(buy_level)
+        } else {
             for (let processMapKey in process_map) {
-                if (processMapKey && processMapKey != 'null') {
+                if (processMapKey && processMapKey != 'null' && process_map[processMapKey]) {
                     let post = process_map[processMapKey];
-                    console.log(`开始合成：[${post[0].post}],[${post[1].post}], 合成等级 ${post[0].level+1}`)
-                    await cow_upgrade(post[0].post, post[1].post, 110)
+                    console.log(`合成牛：[${post[0].post}],[${post[1].post}], 合成等级 ${post[0].level+1}`)
+                    await cow_upgrade(post[0].post, post[1].post)
                 }
             }
-        } else {
-            await cow_buy(buy_level, 120)
         }
+        count++
     }
 })()
     .catch((e) => $.logErr(e))
     .finally(() => $.done())
 
 // 购买牛
-function cow_buy(level, timeout = 0) {
+function cow_buy(level, timeout=0) {
     return new Promise((resolve) => {
         let url = {
             url: `http://8.140.168.52/api/buy_pet?user_id=${userid}&token=${token}&allow_buy=${level}`,
@@ -54,10 +60,10 @@ function cow_buy(level, timeout = 0) {
                 const result = JSON.parse(data)
                 if (result.code == 20000) {
                     buildCowMap(result.data)
-                    console.log(`购买等级${level}牛：` + result.msg)
+                    console.log(`购买牛：${level}级 -》` + result.msg)
                     $.message += result.msg + '\n'
                 } else {
-                    console.log(`购买等级${level}牛：` + result.msg)
+                    console.log(`购买牛：${level}级 -》` + result.msg)
                     $.message += result.msg + '\n'
                     // notify.sendNotify("合成失败", result.message);
                     if (result.msg.indexOf("没有空位了") != -1) {
@@ -77,7 +83,7 @@ function cow_buy(level, timeout = 0) {
 }
 
 // 合成牛
-function cow_upgrade(one, two, timeout = 0) {
+function cow_upgrade(one, two, timeout=0) {
     return new Promise((resolve) => {
         let url = {
             url: `http://8.140.168.52/api/upgrade?user_id=${userid}&token=${token}&one_position_serial_number=${one}&two_position_serial_number=${two}`,
@@ -91,10 +97,9 @@ function cow_upgrade(one, two, timeout = 0) {
                     if (result.data.niu) {
                         buildCowMap(result.data)
                     }
-                    console.log(`\n 结果：` + result.msg)
                     $.message += result.msg + '\n'
                 } else {
-                    console.log(`\n 结果：` + result.msg)
+                    console.log(`结果：` + result.msg)
                     $.message += result.msg + '\n'
                     // notify.sendNotify("合成失败", result.message);
                 }
@@ -132,7 +137,6 @@ function cow_info(showMsg, timeout = 0) {
                         console.log('最大等级：' + data.max_level)
                         console.log('金币增长速度：' + data.total_gold_income)
                     }
-                    console.log("牛信息")
                     buildCowMap(data)
                 } else {
                     console.log('\n ' + result.msg)
