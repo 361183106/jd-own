@@ -23,7 +23,7 @@ $.message = ''
     let count = 1;
     console.log(`------------- 开始操作 -------------\n`)
     while (true && buy_level && !reFlag) {
-        await $.wait(2397)
+        await $.wait(757)
         // console.log(`开始第 ${count} 波操作！`)
         let length = Object.keys(process_map).length;
         if ((length < 1) || (length >= 1 && process_map['null'])) {
@@ -36,6 +36,7 @@ $.message = ''
                     await cow_upgrade(post[0].post, post[1].post)
                 }
             }
+            await cow_info(false)
         }
         count++
     }
@@ -94,9 +95,6 @@ function cow_upgrade(one, two, timeout=0) {
                 const result = JSON.parse(data)
                 if (result.code === 20000) {
                     buy_level = result.data.allow_buy;
-                    if (result.data.niu) {
-                        buildCowMap(result.data)
-                    }
                     $.message += result.msg + '\n'
                 } else {
                     console.log(`结果：` + result.msg)
