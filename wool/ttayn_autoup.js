@@ -23,7 +23,7 @@ $.message = ''
     let count = 1;
     console.log(`------------- 开始操作 -------------\n`)
     while (true && buy_level && !reFlag) {
-        await $.wait(757)
+        await $.wait(1757)
         // console.log(`开始第 ${count} 波操作！`)
         let length = Object.keys(process_map).length;
         if ((length < 1) || (length >= 1 && process_map['null'])) {
