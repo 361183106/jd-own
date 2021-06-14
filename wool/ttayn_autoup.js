@@ -1,5 +1,5 @@
 /*
-16 8-23 * * * https://gitee.com/misyi/jd-own/raw/master/wool/ttayn_autoup.js, tag=天天爱养牛快速合成, enabled=true
+16,46 * * * * https://gitee.com/misyi/jd-own/raw/master/wool/ttayn_autoup.js, tag=天天爱养牛快速合成, enabled=true
 
 环境变量：多个账号用|||分割
 ttayn_userid
@@ -15,7 +15,7 @@ const $ = new Env('天天爱养牛快速合成');
 let buy_level = 5;
 let cow_map = new Map()
 let process_map = new Map()
-let reFlag = false, afk
+let reFlag = false, afk, energy = 0
 
 $.message = ''
 let userIdList, tokenList
@@ -44,8 +44,22 @@ let default_header = {
             await $.wait(35000)
             await cow_afk_doubled(num)
         }
-        // todo 处理低级牛
+        // todo 清理低级牛
+        for (const cowKey in cow_map) {
+            let level = cow_map[cowKey].level;
+            if (level < buy_level) {
+                console.log(`可购买 ${buy_level} 级，应该清理 位置：${cow_map[cowKey].post}, 等级：${level}`)
+            }
+        }
 
+        // 转盘
+        await turntables_info(num);
+        if (energy > 0) {
+            console.log(`--- 开始转盘 ---`)
+            for (let energy_count = 0;energy_count<energy;energy_count++) {
+                await turntables_start(num);
+            }
+        }
 
         let count = 1;
         while (true && buy_level && !reFlag) {
@@ -253,6 +267,99 @@ function cow_recycle(num, position, timeout = 0) {
         }, timeout)
     })
 }
+
+
+// 转盘信息
+function turntables_info(num, timeout = 0) {
+    return new Promise((resolve) => {
+        let url = {
+            url: `http://8.140.168.52/api/turntables_info?user_id=${userIdList[num]}&token=${tokenList[num]}`,
+            headers: default_header
+        }
+        $.get(url, (err, resp, data) => {
+            try {
+                const result = JSON.parse(data)
+                if (result.code === 20000) {
+                    console.log(`转盘可以转 ${result.data.energy} 次`)
+                    energy = result.data.energy
+                } else {
+                    console.log('\n ' + result.msg)
+                    $.message += result.msg + '\n'
+                }
+            } catch (e) {
+                $.logErr(e, resp);
+            } finally {
+                resolve()
+            }
+        }, timeout)
+    })
+}
+
+// 开始转盘
+function turntables_start(num, timeout = 0) {
+    return new Promise((resolve) => {
+        let url = {
+            url: `http://8.140.168.52/api/turntables_start?user_id=${userIdList[num]}&token=${tokenList[num]}`,
+            headers: default_header
+        }
+        $.get(url, (err, resp, data) => {
+            try {
+                const result = JSON.parse(data)
+                if (result.code === 20000) {
+                    let info = result.data;
+                    if (info.turntables_id == 1) {
+                        console.log(`转到【少量收益】`)
+                    } else if (info.turntables_id == 2) {
+                        console.log(`转到【攻击】，攻击接口尚未抓取`)
+                    } else if (info.turntables_id == 3) {
+                        console.log(`转到【少量收益】`)
+                    } else if (info.turntables_id == 4) {
+                        console.log(`转到【偷取】， 开始偷取金币`)
+                        steal(num, info.goal[0].id)
+                    } else if (info.turntables_id == 5) {
+                        console.log(`转到【大量收益】`)
+                    } else if (info.turntables_id == 6) {
+                        console.log(`转到【护盾】`)
+                    } else if (info.turntables_id == 7) {
+                        console.log(`转到【战斗能量】`)
+                    }
+                } else {
+                    console.log('\n ' + result.msg)
+                    $.message += result.msg + '\n'
+                }
+            } catch (e) {
+                $.logErr(e, resp);
+            } finally {
+                resolve()
+            }
+        }, timeout)
+    })
+}
+
+
+// 偷取
+function steal(num, steal_user_id, timeout = 0) {
+    let url = {
+        url: `http://8.140.168.52/api/steal?user_id=${userIdList[num]}&token=${tokenList[num]}&steal_user_id=${steal_user_id}`,
+        headers: default_header
+    }
+    $.get(url, (err, resp, data) => {
+        try {
+            const result = JSON.parse(data)
+            if (result.code === 20000) {
+                console.log(`偷取成功!`)
+            } else {
+                console.log('\n ' + result.msg)
+                $.message += result.msg + '\n'
+            }
+        } catch (e) {
+            $.logErr(e, resp);
+        } finally {
+            // resolve()
+        }
+    }, timeout)
+}
+
 
 
 
