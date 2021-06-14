@@ -107,6 +107,7 @@ let default_header = {
             let worldList = envelope_info.word_group.history_message_list;
             if (worldList) {
                 console.log(`开始领取世界红包`)
+                let hasRedCount = 0
                 for (let worldKey in worldList) {
                     // 红包状态： 1-已过期 2-待领取 3-已领取
                     if (worldList[worldKey].status == 2) {
@@ -117,6 +118,11 @@ let default_header = {
                         }
                         console.log(`等待 35 秒再领取下一个红包！`)
                         await $.wait(35278)
+                        hasRedCount++
+                        if (hasRedCount >= 10) {
+                            console.log(`单次运行最多领 10 个红包！`)
+                            return
+                        }
                     }
                 }
             }
