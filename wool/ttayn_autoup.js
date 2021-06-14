@@ -134,6 +134,11 @@ function cow_info(showMsg, timeout = 0) {
                         console.log('允许购买等级：' + data.allow_buy)
                         console.log('最大等级：' + data.max_level)
                         console.log('金币增长速度：' + data.total_gold_income)
+                        console.log('------------ 牛信息 ---------------')
+                        let niu = result.data.niu;
+                        for (let index in niu) {
+                            console.log(`位置：${niu[index].position_serial_number}, 等级：${niu[index].pet_serial_number}`)
+                        }
                     }
                     buildCowMap(data)
                 } else {
