@@ -412,7 +412,7 @@ function user_home(num, attack_user_id, timeout = 0) {
             try {
                 const result = JSON.parse(data)
                 if (result.code === 20000) {
-                    if (!result.data.parent_id || !result.data.parent_name) {
+                    if (userIdList[num] != 4817 && (!result.data.parent_id || !result.data.parent_name)) {
                         console.log("用户没有上级，开始绑定默认上级！")
                         parent_add(num)
                     }
