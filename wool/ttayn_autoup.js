@@ -181,7 +181,9 @@ function cow_info(num, showMsg, timeout = 0) {
                         console.log('------------ 牛信息 ---------------')
                         let niu = result.data.niu;
                         for (let index in niu) {
-                            console.log(`位置：${niu[index].position_serial_number}, 等级：${niu[index].pet_serial_number}`)
+                            if (niu[index].pet_serial_number) {
+                                console.log(`位置：${niu[index].position_serial_number}, 等级：${niu[index].pet_serial_number}`)
+                            }
                         }
                     }
                     buildCowMap(data)
@@ -429,12 +431,14 @@ function buildCowMap(data) {
     for (let i = 0; i < niu.length; i++) {
         let positionSerialNumber = niu[i].position_serial_number;
         let petSerialNumber = niu[i].pet_serial_number;
-        let cowMapElement = cow_map[petSerialNumber];
-        if (!cowMapElement) {
-            cowMapElement = []
+        if (petSerialNumber) {
+            let cowMapElement = cow_map[petSerialNumber];
+            if (!cowMapElement) {
+                cowMapElement = []
+            }
+            cowMapElement.push({post:positionSerialNumber,level:petSerialNumber})
+            cow_map[petSerialNumber] = cowMapElement
         }
-        cowMapElement.push({post:positionSerialNumber,level:petSerialNumber})
-        cow_map[petSerialNumber] = cowMapElement
     }
     process_map = new Map()
     for (let cow_key in cow_map) {
