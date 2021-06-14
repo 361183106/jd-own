@@ -114,14 +114,14 @@ let default_header = {
                         let flag = await envelope_obtain(num, 'all', worldList[worldKey].type, worldList[worldKey].id);
                         if (!flag) {
                             console.log(`无法再领取红包，直接跳出！`)
-                            return
+                            break
                         }
                         console.log(`等待 35 秒再领取下一个红包！`)
                         await $.wait(35278)
                         hasRedCount++
                         if (hasRedCount >= 10) {
                             console.log(`单次运行最多领 10 个红包！`)
-                            return
+                            break
                         }
                     }
                 }
