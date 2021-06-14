@@ -37,7 +37,7 @@ let default_header = {
     console.log(`--- 牛牛挂机：共计 ${userIdList.length} 个账号 ---\n`)
     for (let num = 0; num < userIdList.length; num++) {
         console.log(`----- 账号 ${num+1} 开始操作 -----\n`)
-        await cow_info(num, false)
+        await cow_info(num, true)
         await cow_afk(num);
         if (afk > 0) {
             console.log(`有离线金币，等待 35 秒进行翻倍`)
@@ -66,7 +66,7 @@ let default_header = {
             await $.wait(357)
             // console.log(`开始第 ${count} 波操作！`)
             let length = Object.keys(process_map).length;
-            if ((length < 1) || (length >= 1 && process_map['null'])) {
+            if ((length < 1) || (length == 1 && process_map['null'] != null)) {
                 await cow_buy(num, buy_level)
             } else {
                 for (let processMapKey in process_map) {
