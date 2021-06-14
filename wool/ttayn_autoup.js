@@ -1,60 +1,82 @@
 /*
 16 8-23 * * * https://gitee.com/misyi/jd-own/raw/master/wool/ttayn_autoup.js, tag=天天爱养牛快速合成, enabled=true
+
+环境变量：多个账号用|||分割
+ttayn_userid
+ttayn_token
+
+todo 邀请、出售低级牛、自动活动
 */
 const $ = new Env('天天爱养牛快速合成');
 // const notify = $.isNode() ? require('./sendNotify') : '';
-let userid = process.env.ttayn_userid;
-let token = process.env.ttayn_token;
+// let userid = process.env.ttayn_userid;
+// let token = process.env.ttayn_token;
 
 let buy_level = 5;
 let cow_map = new Map()
 let process_map = new Map()
-let reFlag = false
+let reFlag = false, afk
 
 $.message = ''
+let userIdList, tokenList
+let default_header = {
+    "Accept-Encoding": "identity",
+    "User-Agent": "Dalvik/2.1.0 (Linux; U; Android 9; MI 8 MIUI/9.9.3)",
+    "Host": "8.140.168.52",
+    "Connection": "keep-alive"
+}
+
 
 !(async () => {
     if (!process.env.ttayn_userid) {
         console.log(`没有配置账号，不执行脚本`)
         return
     }
-
-    await cow_info(true)
-    let count = 1;
-    console.log(`------------- 开始操作 -------------\n`)
-    while (true && buy_level && !reFlag) {
-        await $.wait(1757)
-        // console.log(`开始第 ${count} 波操作！`)
-        let length = Object.keys(process_map).length;
-        if ((length < 1) || (length >= 1 && process_map['null'])) {
-            await cow_buy(buy_level)
-        } else {
-            for (let processMapKey in process_map) {
-                if (processMapKey && processMapKey != 'null' && process_map[processMapKey]) {
-                    let post = process_map[processMapKey];
-                    console.log(`合成牛：[${post[0].post}],[${post[1].post}], 合成等级 ${post[0].level+1}`)
-                    await cow_upgrade(post[0].post, post[1].post)
-                }
-            }
-            await cow_info(false)
+    userIdList = process.env.ttayn_userid.split('|||');
+    tokenList = process.env.ttayn_token.split('|||');
+    console.log(`--- 牛牛挂机：共计 ${userIdList.length} 个账号 ---\n`)
+    for (let num = 0; num < userIdList.length; num++) {
+        console.log(`----- 账号 ${num+1} 开始操作 -----\n`)
+        await cow_info(num, false)
+        await cow_afk(num);
+        if (afk > 0) {
+            console.log(`有离线金币，等待 35 秒进行翻倍`)
+            await $.wait(35000)
+            await cow_afk_doubled(num)
         }
-        count++
+        // todo 处理低级牛
+
+
+        let count = 1;
+        while (true && buy_level && !reFlag) {
+            await $.wait(357)
+            // console.log(`开始第 ${count} 波操作！`)
+            let length = Object.keys(process_map).length;
+            if ((length < 1) || (length >= 1 && process_map['null'])) {
+                await cow_buy(num, buy_level)
+            } else {
+                for (let processMapKey in process_map) {
+                    if (processMapKey && processMapKey != 'null' && process_map[processMapKey]) {
+                        let post = process_map[processMapKey];
+                        console.log(`合成牛：[${post[0].post}],[${post[1].post}], 合成等级 ${post[0].level+1}`)
+                        await cow_upgrade(num, post[0].post, post[1].post)
+                    }
+                }
+                await cow_info(num, false)
+            }
+            count++
+        }
     }
 })()
     .catch((e) => $.logErr(e))
     .finally(() => $.done())
 
 // 购买牛
-function cow_buy(level, timeout=0) {
+function cow_buy(num, level, timeout=0) {
     return new Promise((resolve) => {
         let url = {
-            url: `http://8.140.168.52/api/buy_pet?user_id=${userid}&token=${token}&allow_buy=${level}`,
-            headers: {
-                "Accept-Encoding": "identity",
-                "User-Agent": "Dalvik/2.1.0 (Linux; U; Android 9; MI 8 MIUI/9.9.3)",
-                "Host": "8.140.168.52",
-                "Connection": "keep-alive"
-            }
+            url: `http://8.140.168.52/api/buy_pet?user_id=${userIdList[num]}&token=${tokenList[num]}&allow_buy=${level}`,
+            headers: default_header
         }
         $.get(url, async (err, resp, data) => {
             try {
@@ -68,7 +90,7 @@ function cow_buy(level, timeout=0) {
                     $.message += result.msg + '\n'
                     // notify.sendNotify("合成失败", result.message);
                     if (result.msg.indexOf("没有空位了") != -1) {
-                        await cow_info(false)
+                        await cow_info(num, false)
                     }
                     if (result.msg.indexOf("金币不足") != -1) {
                         reFlag = true
@@ -84,11 +106,11 @@ function cow_buy(level, timeout=0) {
 }
 
 // 合成牛
-function cow_upgrade(one, two, timeout=0) {
+function cow_upgrade(num, one, two, timeout=0) {
     return new Promise((resolve) => {
         let url = {
-            url: `http://8.140.168.52/api/upgrade?user_id=${userid}&token=${token}&one_position_serial_number=${one}&two_position_serial_number=${two}`,
-            headers: {"Accept-Encoding":"identity","User-Agent":"Dalvik/2.1.0 (Linux; U; Android 9; MI 8 MIUI/9.9.3)","Host":"8.140.168.52","Connection":"keep-alive"}
+            url: `http://8.140.168.52/api/upgrade?user_id=${userIdList[num]}&token=${tokenList[num]}&one_position_serial_number=${one}&two_position_serial_number=${two}`,
+            headers: default_header
         }
         $.get(url, async (err, resp, data) => {
             try {
@@ -111,16 +133,11 @@ function cow_upgrade(one, two, timeout=0) {
 }
 
 // 获取牛信息
-function cow_info(showMsg, timeout = 0) {
+function cow_info(num, showMsg, timeout = 0) {
     return new Promise((resolve) => {
         let url = {
-            url: `http://8.140.168.52/api/enter_farms?user_id=${userid}&token=${token}`,
-            headers: {
-                "Accept-Encoding": "identity",
-                "User-Agent": "Dalvik/2.1.0 (Linux; U; Android 9; MI 8 MIUI/9.9.3)",
-                "Host": "8.140.168.52",
-                "Connection": "keep-alive"
-            }
+            url: `http://8.140.168.52/api/enter_farms?user_id=${userIdList[num]}&token=${tokenList[num]}`,
+            headers: default_header
         }
         $.get(url, (err, resp, data) => {
             try {
@@ -128,6 +145,7 @@ function cow_info(showMsg, timeout = 0) {
                 if (result.code === 20000) {
                     let data = result.data;
                     buy_level = data.allow_buy;
+                    console.log('金币数量 ' + data.gold)
                     if (showMsg) {
                         console.log('现金：' + data.RMB)
                         console.log('金币：' + data.gold)
@@ -154,6 +172,88 @@ function cow_info(showMsg, timeout = 0) {
         }, timeout)
     })
 }
+
+
+
+// 查询离线信息
+function cow_afk(num, timeout = 0) {
+    return new Promise((resolve) => {
+        let url = {
+            url: `http://8.140.168.52/api/afk_gold_income?user_id=${userIdList[num]}&token=${tokenList[num]}`,
+            headers: default_header
+        }
+        $.get(url, (err, resp, data) => {
+            try {
+                const result = JSON.parse(data)
+                if (result.code === 20000) {
+                    let data = result.data;
+                    console.log(`离线金币 ${data.afk_gold_income}`)
+                    afk = data.afk_gold_income
+                } else {
+                    console.log('\n ' + result.msg)
+                    $.message += result.msg + '\n'
+                }
+            } catch (e) {
+                $.logErr(e, resp);
+            } finally {
+                resolve()
+            }
+        }, timeout)
+    })
+}
+
+
+// 离线金币翻倍
+function cow_afk_doubled(num, timeout = 0) {
+    return new Promise((resolve) => {
+        let url = {
+            url: `http://8.140.168.52/api/afk_gold_income_doubled?user_id=${userIdList[num]}&token=${tokenList[num]}`,
+            headers: default_header
+        }
+        $.get(url, (err, resp, data) => {
+            try {
+                const result = JSON.parse(data)
+                if (result.code === 20000) {
+                    console.log(`离线金币翻倍成功, 总金币 ${result.data}`)
+                } else {
+                    console.log('\n ' + result.msg)
+                    $.message += result.msg + '\n'
+                }
+            } catch (e) {
+                $.logErr(e, resp);
+            } finally {
+                resolve()
+            }
+        }, timeout)
+    })
+}
+
+
+// 出售低级牛
+function cow_recycle(num, position, timeout = 0) {
+    return new Promise((resolve) => {
+        let url = {
+            url: `http://8.140.168.52/api/recycle?user_id=${userIdList[num]}&token=${tokenList[num]}&position_serial_number=${position}`,
+            headers: default_header
+        }
+        $.get(url, (err, resp, data) => {
+            try {
+                const result = JSON.parse(data)
+                if (result.code === 20000) {
+                    console.log(`离线金币翻倍成功, 总金币 ${result.data}`)
+                } else {
+                    console.log('\n ' + result.msg)
+                    $.message += result.msg + '\n'
+                }
+            } catch (e) {
+                $.logErr(e, resp);
+            } finally {
+                resolve()
+            }
+        }, timeout)
+    })
+}
+
 
 
 function buildCowMap(data) {
