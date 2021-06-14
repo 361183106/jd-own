@@ -116,7 +116,7 @@ let default_header = {
                             return
                         }
                         console.log(`等待 35 秒再领取下一个红包！`)
-                        await $.wait(1000)
+                        await $.wait(35278)
                     }
                 }
             }
