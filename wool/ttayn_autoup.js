@@ -97,6 +97,30 @@ let default_header = {
             }
             count++
         }
+
+        // 开始领取红包
+        console.log("----------------- 开始领取红包 -------------------")
+        let envelope_info = await envelope_home(num);
+        let shengyu_cishu = await get_user_envelope_num(num);
+        console.log(`可领取红包的剩余次数：${shengyu_cishu}`)
+        if (shengyu_cishu > 0) {
+            let worldList = envelope_info.word_group.history_message_list;
+            if (worldList) {
+                console.log(`开始领取世界红包`)
+                for (let worldKey in worldList) {
+                    // 红包状态： 1-已过期 2-待领取 3-已领取
+                    if (worldList[worldKey].status == 2) {
+                        let flag = await envelope_obtain(num, 'all', worldList[worldKey].type, worldList[worldKey].id);
+                        if (!flag) {
+                            console.log(`无法再领取红包，直接跳出！`)
+                            return
+                        }
+                        console.log(`等待 35 秒再领取下一个红包！`)
+                        await $.wait(1000)
+                    }
+                }
+            }
+        }
     }
 })()
     .catch((e) => $.logErr(e))
@@ -398,7 +422,7 @@ function user_home(num, attack_user_id, timeout = 0) {
     })
 }
 
-// 转盘信息
+// 添加邀请人
 function parent_add(num, timeout = 0) {
     return new Promise((resolve) => {
         let url = {
@@ -417,6 +441,85 @@ function parent_add(num, timeout = 0) {
                 $.logErr(e, resp);
             } finally {
                 resolve()
+            }
+        }, timeout)
+    })
+}
+
+// 红包主页信息
+function envelope_home(num, timeout = 0) {
+    return new Promise((resolve) => {
+        let url = {
+            url: `http://8.140.168.52/api/envelope_home?user_id=${userIdList[num]}&token=${tokenList[num]}`,
+            headers: default_header
+        }
+        let envelope_info
+        $.get(url, (err, resp, data) => {
+            try {
+                const result = JSON.parse(data)
+                if (result.code === 20000) {
+                    envelope_info = result.data
+                    console.log('\n ' + result.msg)
+                } else {
+                    console.log('\n ' + result.msg)
+                }
+            } catch (e) {
+                $.logErr(e, resp);
+            } finally {
+                resolve(envelope_info)
+            }
+        }, timeout)
+    })
+}
+
+// 获取可领取红包数量
+function get_user_envelope_num(num, timeout = 0) {
+    return new Promise((resolve) => {
+        let url = {
+            url: `http://8.140.168.52/api/get_user_envelope_num?user_id=${userIdList[num]}&token=${tokenList[num]}`,
+            headers: default_header
+        }
+        let count
+        $.get(url, (err, resp, data) => {
+            try {
+                const result = JSON.parse(data)
+                if (result.code === 20000) {
+                    count = result.data.shengyu_cishu
+                    console.log( result.msg)
+                } else {
+                    count = 0
+                    console.log(result.msg)
+                }
+            } catch (e) {
+                $.logErr(e, resp);
+            } finally {
+                resolve(count)
+            }
+        }, timeout)
+    })
+}
+
+// 领取红包
+function envelope_obtain(num, group, type, envelope_id, timeout = 0) {
+    return new Promise((resolve) => {
+        let url = {
+            url: `http://8.140.168.52/api/envelope_obtain?user_id=${userIdList[num]}&token=${tokenList[num]}&group=${group}&type=${type}&envelope_id=${envelope_id}&status=2`,
+            headers: default_header
+        }
+        let flag = true
+        $.get(url, (err, resp, data) => {
+            try {
+                const result = JSON.parse(data)
+                if (result.code === 20000) {
+                    console.log(`红包领取成功：${result.data.number}`)
+                } else {
+                    flag = false
+                    console.log('\n ' + result.msg)
+                }
+            } catch (e) {
+                $.logErr(e, resp);
+            } finally {
+                resolve(flag)
             }
         }, timeout)
     })
