@@ -17,7 +17,6 @@ let cow_map = new Map()
 let process_map = new Map()
 let reFlag = false, afk, energy = 0
 
-$.message = ''
 let userIdList, tokenList
 let default_header = {
     "Accept-Encoding": "identity",
@@ -38,7 +37,8 @@ let default_header = {
     for (let num = 0; num < userIdList.length; num++) {
         console.log(`----- 账号 ${num+1} 开始操作 -----\n`)
         await cow_info(num, true)
-        await cow_afk(num);
+        await user_home(num)
+        await cow_afk(num)
         if (afk > 0) {
             console.log(`有离线金币，等待 35 秒进行翻倍`)
             await $.wait(35000)
@@ -57,7 +57,24 @@ let default_header = {
         if (energy > 0) {
             console.log(`--- 开始转盘 ---`)
             for (let energy_count = 0;energy_count<energy;energy_count++) {
-                await turntables_start(num);
+                let info = await turntables_start(num);
+                if (info.turntables_id == 2) {
+                    console.log(`开始攻击`)
+                    let allAlong = true
+                    while (allAlong) {
+                        console.log(`开始作弊，一直攻击！`)
+                        allAlong = await attack(num, info.enemy[0].id)
+                    }
+                }
+                if (info.turntables_id == 4) {
+                    // 偷取能量
+                    console.log(`开始偷取金币`)
+                    let allAlong = true
+                    while (allAlong) {
+                        console.log(`开始作弊，一直偷取！`)
+                        allAlong = await steal(num, info.goal[0].id)
+                    }
+                }
             }
         }
 
@@ -98,10 +115,8 @@ function cow_buy(num, level, timeout=0) {
                 if (result.code == 20000) {
                     buildCowMap(result.data)
                     console.log(`购买牛：${level}级 -》` + result.msg)
-                    $.message += result.msg + '\n'
                 } else {
                     console.log(`购买牛：${level}级 -》` + result.msg)
-                    $.message += result.msg + '\n'
                     // notify.sendNotify("合成失败", result.message);
                     if (result.msg.indexOf("没有空位了") != -1) {
                         await cow_info(num, false)
@@ -131,11 +146,8 @@ function cow_upgrade(num, one, two, timeout=0) {
                 const result = JSON.parse(data)
                 if (result.code === 20000) {
                     buy_level = result.data.allow_buy;
-                    $.message += result.msg + '\n'
                 } else {
                     console.log(`结果：` + result.msg)
-                    $.message += result.msg + '\n'
-                    // notify.sendNotify("合成失败", result.message);
                 }
             } catch (e) {
                 $.logErr(e, resp);
@@ -175,8 +187,6 @@ function cow_info(num, showMsg, timeout = 0) {
                     buildCowMap(data)
                 } else {
                     console.log('\n ' + result.msg)
-                    $.message += result.msg + '\n'
-                    // notify.sendNotify("合成失败", result.message);
                 }
             } catch (e) {
                 $.logErr(e, resp);
@@ -205,7 +215,6 @@ function cow_afk(num, timeout = 0) {
                     afk = data.afk_gold_income
                 } else {
                     console.log('\n ' + result.msg)
-                    $.message += result.msg + '\n'
                 }
             } catch (e) {
                 $.logErr(e, resp);
@@ -231,7 +240,6 @@ function cow_afk_doubled(num, timeout = 0) {
                     console.log(`离线金币翻倍成功, 总金币 ${result.data}`)
                 } else {
                     console.log('\n ' + result.msg)
-                    $.message += result.msg + '\n'
                 }
             } catch (e) {
                 $.logErr(e, resp);
@@ -257,7 +265,6 @@ function cow_recycle(num, position, timeout = 0) {
                     console.log(`离线金币翻倍成功, 总金币 ${result.data}`)
                 } else {
                     console.log('\n ' + result.msg)
-                    $.message += result.msg + '\n'
                 }
             } catch (e) {
                 $.logErr(e, resp);
@@ -284,7 +291,6 @@ function turntables_info(num, timeout = 0) {
                     energy = result.data.energy
                 } else {
                     console.log('\n ' + result.msg)
-                    $.message += result.msg + '\n'
                 }
             } catch (e) {
                 $.logErr(e, resp);
@@ -298,6 +304,7 @@ function turntables_info(num, timeout = 0) {
 // 开始转盘
 function turntables_start(num, timeout = 0) {
     return new Promise((resolve) => {
+        let info
         let url = {
             url: `http://8.140.168.52/api/turntables_start?user_id=${userIdList[num]}&token=${tokenList[num]}`,
             headers: default_header
@@ -306,16 +313,15 @@ function turntables_start(num, timeout = 0) {
             try {
                 const result = JSON.parse(data)
                 if (result.code === 20000) {
-                    let info = result.data;
+                    info = result.data;
                     if (info.turntables_id == 1) {
                         console.log(`转到【少量收益】`)
                     } else if (info.turntables_id == 2) {
-                        console.log(`转到【攻击】，攻击接口尚未抓取`)
+                        console.log(`转到【攻击】`)
                     } else if (info.turntables_id == 3) {
                         console.log(`转到【少量收益】`)
                     } else if (info.turntables_id == 4) {
-                        console.log(`转到【偷取】， 开始偷取金币`)
-                        steal(num, info.goal[0].id)
+                        console.log(`转到【偷取】`)
                     } else if (info.turntables_id == 5) {
                         console.log(`转到【大量收益】`)
                     } else if (info.turntables_id == 6) {
@@ -325,7 +331,61 @@ function turntables_start(num, timeout = 0) {
                     }
                 } else {
                     console.log('\n ' + result.msg)
-                    $.message += result.msg + '\n'
+                }
+            } catch (e) {
+                $.logErr(e, resp);
+            } finally {
+                resolve(info)
+            }
+        }, timeout)
+    })
+}
+
+
+// 偷取
+function steal(num, steal_user_id, timeout = 0) {
+    return new Promise((resolve) => {
+        let url = {
+        url: `http://8.140.168.52/api/steal?user_id=${userIdList[num]}&token=${tokenList[num]}&steal_user_id=${steal_user_id}&type=3`,
+        headers: default_header
+        }
+        let allAlong = true
+        $.get(url, (err, resp, data) => {
+            try {
+                const result = JSON.parse(data)
+                if (result.code === 20000) {
+                    console.log(`偷取成功!`)
+                } else {
+                    allAlong = false
+                    console.log('\n ' + result.msg)
+                }
+            } catch (e) {
+                $.logErr(e, resp);
+            } finally {
+                resolve(allAlong)
+            }
+        }, timeout)
+    })
+}
+
+
+// 用户信息
+function user_home(num, attack_user_id, timeout = 0) {
+    return new Promise((resolve) => {
+        let url = {
+        url: `http://8.140.168.52/api/user_home?user_id=${userIdList[num]}&token=${tokenList[num]}`,
+        headers: default_header
+        }
+        $.get(url, (err, resp, data) => {
+            try {
+                const result = JSON.parse(data)
+                if (result.code === 20000) {
+                    if (!result.data.parent_id || !result.data.parent_name) {
+                        console.log("用户没有上级，开始绑定默认上级！")
+                        parent_add(num)
+                    }
+                } else {
+                    console.log('\n ' + result.msg)
                 }
             } catch (e) {
                 $.logErr(e, resp);
@@ -336,28 +396,28 @@ function turntables_start(num, timeout = 0) {
     })
 }
 
-
-// 偷取
-function steal(num, steal_user_id, timeout = 0) {
-    let url = {
-        url: `http://8.140.168.52/api/steal?user_id=${userIdList[num]}&token=${tokenList[num]}&steal_user_id=${steal_user_id}`,
-        headers: default_header
-    }
-    $.get(url, (err, resp, data) => {
-        try {
-            const result = JSON.parse(data)
-            if (result.code === 20000) {
-                console.log(`偷取成功!`)
-            } else {
-                console.log('\n ' + result.msg)
-                $.message += result.msg + '\n'
-            }
-        } catch (e) {
-            $.logErr(e, resp);
-        } finally {
-            // resolve()
+// 转盘信息
+function parent_add(num, timeout = 0) {
+    return new Promise((resolve) => {
+        let url = {
+            url: `http://8.140.168.52/api/parent_add?user_id=${userIdList[num]}&token=${tokenList[num]}&invite_code=83S91T`,
+            headers: default_header
         }
-    }, timeout)
+        $.get(url, (err, resp, data) => {
+            try {
+                const result = JSON.parse(data)
+                if (result.code === 20000) {
+                    console.log('\n ' + result.msg)
+                } else {
+                    console.log('\n ' + result.msg)
+                }
+            } catch (e) {
+                $.logErr(e, resp);
+            } finally {
+                resolve()
+            }
+        }, timeout)
+    })
 }
 
 
