@@ -4,8 +4,6 @@
 环境变量：多个账号用|||分割
 ttayn_userid
 ttayn_token
-
-todo 邀请、出售低级牛、自动活动
 */
 const $ = new Env('天天爱养牛快速合成');
 const notify = $.isNode() ? require('./sendNotify') : '';
@@ -16,6 +14,14 @@ let buy_level = 5;
 let cow_map = new Map()
 let process_map = new Map()
 let afk, energy = 0
+
+let unitMap = new Map([
+    [1, "K"],
+    [2, "M"],
+    [3, "B"],
+    [4, "T"],
+    [5, "Q"]
+])
 
 let userIdList, tokenList
 let default_header = {
@@ -217,13 +223,13 @@ function cow_info(num, showMsg, timeout = 0) {
                 if (result.code === 20000) {
                     let data = result.data;
                     buy_level = data.allow_buy;
-                    console.log('金币数量 ' + data.gold)
+                    console.log('金币数量 ' + transform(data.gold))
                     if (showMsg) {
                         console.log('现金：' + data.RMB)
-                        console.log('金币：' + data.gold)
+                        console.log('金币：' + transform(data.gold))
                         console.log('允许购买等级：' + data.allow_buy)
                         console.log('最大等级：' + data.max_level)
-                        console.log('金币增长速度：' + data.total_gold_income)
+                        console.log('金币增长速度：' + transform(data.total_gold_income))
                         console.log('------- 牛信息 ----------')
                         let niu = result.data.niu;
                         for (let index in niu) {
@@ -260,7 +266,7 @@ function cow_afk(num, timeout = 0) {
                 const result = JSON.parse(data)
                 if (result.code === 20000) {
                     let data = result.data;
-                    console.log(`离线金币 ${data.afk_gold_income}`)
+                    console.log(`离线金币 ${transform(data.afk_gold_income)}`)
                     afk = data.afk_gold_income
                 } else {
                     console.log('\n ' + result.msg)
@@ -286,7 +292,7 @@ function cow_afk_doubled(num, timeout = 0) {
             try {
                 const result = JSON.parse(data)
                 if (result.code === 20000) {
-                    console.log(`离线金币翻倍成功, 总金币 ${result.data}`)
+                    console.log(`离线金币翻倍成功, 总金币 ${transform(result.data)}`)
                 } else {
                     console.log('\n ' + result.msg)
                 }
@@ -429,7 +435,7 @@ function attack(num, attack_user_id, timeout = 0) {
             try {
                 const result = JSON.parse(data)
                 if (result.code === 20000) {
-                    console.log(`${result.msg}, 总金币数量：${result.data}`)
+                    console.log(`${result.msg}, 总金币数量：${transform(result.data)}`)
                 } else {
                     allAlong = false
                     console.log(result.msg)
@@ -680,6 +686,18 @@ function getCurrentDate() {
         + " " + date.getHours() + seperator2 + date.getMinutes()
         + seperator2 + date.getSeconds();
     return currentdate;
+}
+
+function transform(coins, unitLevel) {
+    if (!unitLevel) {
+        unitLevel = 1
+    }
+    let result = coins / 1000;
+    if (result > 1000) {
+        return transform(result, unitLevel + 1);
+    } else {
+        return result.toFixed(2) + unitMap.get(unitLevel);
+    }
 }
 
 function Env(t, e) {
