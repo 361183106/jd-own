@@ -8,7 +8,7 @@ ttayn_token
 todo 邀请、出售低级牛、自动活动
 */
 const $ = new Env('天天爱养牛快速合成');
-// const notify = $.isNode() ? require('./sendNotify') : '';
+const notify = $.isNode() ? require('./sendNotify') : '';
 // let userid = process.env.ttayn_userid;
 // let token = process.env.ttayn_token;
 
@@ -135,8 +135,8 @@ let default_header = {
                         console.log(`等待 12 秒再领取下一个红包！`)
                         await $.wait(12278)
                         hasRedCount++
-                        if (hasRedCount >= 10) {
-                            console.log(`单次运行最多领 10 个红包！`)
+                        if (hasRedCount >= 5) {
+                            console.log(`单次运行最多领 5 个红包！`)
                             break
                         }
                     }
@@ -461,6 +461,7 @@ function user_home(num, attack_user_id, timeout = 0) {
                         parent_add(num)
                     }
                 } else {
+                    notify.sendNotify(`天天爱养牛, 账号 ${num} 运行失败`, result.msg)
                     console.log('\n ' + result.msg)
                 }
             } catch (e) {
