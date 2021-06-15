@@ -2,6 +2,10 @@
 采用大佬的 qinglong 项目 
 配合自用脚本
 
+# wool 包教程
+## [天天爱养牛](./doc/ttayn.md)
+
+
 # 自用脚本配置
 
 ```text
