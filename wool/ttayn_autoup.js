@@ -46,8 +46,8 @@ let default_header = {
         await user_home(num)
         await cow_afk(num)
         if (afk > 0) {
-            console.log(`有离线金币，等待 12 秒进行翻倍`)
-            await $.wait(12377)
+            console.log(`有离线金币，等待 30 秒进行翻倍`)
+            await $.wait(30377)
             await cow_afk_doubled(num)
         }
         // 清理低级牛
@@ -138,8 +138,8 @@ let default_header = {
                             console.log(`无法再领取红包，直接跳出！`)
                             break
                         }
-                        console.log(`等待 12 秒再领取下一个红包！`)
-                        await $.wait(12278)
+                        console.log(`等待 30 秒再领取下一个红包！`)
+                        await $.wait(30278)
                         hasRedCount++
                         if (hasRedCount >= 5) {
                             console.log(`单次运行最多领 5 个红包！`)
