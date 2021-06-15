@@ -35,7 +35,7 @@ let default_header = {
     tokenList = process.env.ttayn_token.split('|||');
     console.log(`--- 牛牛挂机：共计 ${userIdList.length} 个账号 ---\n`)
     for (let num = 0; num < userIdList.length; num++) {
-        console.log(`----- 账号 ${num+1} 开始操作 -----`)
+        console.log(`\n\n----- 账号 ${num+1} 开始操作 -----`)
         await cow_info(num, true)
         await user_home(num)
         await cow_afk(num)
@@ -46,9 +46,13 @@ let default_header = {
         }
         // todo 清理低级牛
         for (const cowKey in cow_map) {
-            let level = cow_map[cowKey].level;
-            if (level < buy_level) {
-                console.log(`可购买 ${buy_level} 级，应该清理 位置：${cow_map[cowKey].post}, 等级：${level}`)
+            if (cowKey < buy_level) {
+                let postInfoArr = cow_map[cowKey];
+                for (let postInfoArrKey in postInfoArr) {
+                    let postInfo = postInfoArr[postInfoArrKey];
+                    console.log(`可购买 ${buy_level} 级，开始清理 位置：${postInfo.post}, 等级：${postInfo.level} 的小牛`)
+                    await cow_recycle(num, postInfo.post)
+                }
             }
         }
 
@@ -102,7 +106,7 @@ let default_header = {
         }
 
         // 开始领取红包
-        console.log("----------------- 开始领取红包 -------------------")
+        console.log("------ 开始领取红包 ------")
         let envelope_info = await envelope_home(num);
         let shengyu_cishu = await get_user_envelope_num(num);
         console.log(`可领取红包的剩余次数：${shengyu_cishu}`)
@@ -298,9 +302,9 @@ function cow_recycle(num, position, timeout = 0) {
             try {
                 const result = JSON.parse(data)
                 if (result.code === 20000) {
-                    console.log(`离线金币翻倍成功, 总金币 ${result.data}`)
+                    console.log(result.msg)
                 } else {
-                    console.log('\n ' + result.msg)
+                    console.log(result.msg)
                 }
             } catch (e) {
                 $.logErr(e, resp);
