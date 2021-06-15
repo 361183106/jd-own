@@ -15,7 +15,7 @@ const $ = new Env('天天爱养牛快速合成');
 let buy_level = 5;
 let cow_map = new Map()
 let process_map = new Map()
-let reFlag = false, afk, energy = 0
+let afk, energy = 0
 
 let userIdList, tokenList
 let default_header = {
@@ -35,13 +35,13 @@ let default_header = {
     tokenList = process.env.ttayn_token.split('|||');
     console.log(`--- 牛牛挂机：共计 ${userIdList.length} 个账号 ---\n`)
     for (let num = 0; num < userIdList.length; num++) {
-        console.log(`----- 账号 ${num+1} 开始操作 -----\n`)
+        console.log(`----- 账号 ${num+1} 开始操作 -----`)
         await cow_info(num, true)
         await user_home(num)
         await cow_afk(num)
         if (afk > 0) {
-            console.log(`有离线金币，等待 35 秒进行翻倍`)
-            await $.wait(35000)
+            console.log(`有离线金币，等待 12 秒进行翻倍`)
+            await $.wait(12377)
             await cow_afk_doubled(num)
         }
         // todo 清理低级牛
@@ -79,12 +79,15 @@ let default_header = {
         }
 
         let count = 1;
-        while (true && buy_level && !reFlag) {
+        while (true && buy_level) {
             await $.wait(357)
             // console.log(`开始第 ${count} 波操作！`)
             let length = Object.keys(process_map).length;
             if ((length < 1) || (length == 1 && process_map['null'] != null)) {
-                await cow_buy(num, buy_level)
+                let allowBuy = await cow_buy(num, buy_level);
+                if (!allowBuy) {
+                    break
+                }
             } else {
                 for (let processMapKey in process_map) {
                     if (processMapKey && processMapKey != 'null' && process_map[processMapKey]) {
@@ -108,7 +111,7 @@ let default_header = {
             if (worldList) {
                 console.log(`开始领取世界红包`)
                 let hasRedCount = 0
-                for (let worldKey in worldList) {
+                for (let worldKey in worldList.reverse()) {
                     // 红包状态： 1-已过期 2-待领取 3-已领取
                     if (worldList[worldKey].status == 2) {
                         let flag = await envelope_obtain(num, 'all', worldList[worldKey].type, worldList[worldKey].id);
@@ -116,8 +119,8 @@ let default_header = {
                             console.log(`无法再领取红包，直接跳出！`)
                             break
                         }
-                        console.log(`等待 35 秒再领取下一个红包！`)
-                        await $.wait(35278)
+                        console.log(`等待 12 秒再领取下一个红包！`)
+                        await $.wait(12278)
                         hasRedCount++
                         if (hasRedCount >= 10) {
                             console.log(`单次运行最多领 10 个红包！`)
@@ -139,6 +142,7 @@ function cow_buy(num, level, timeout=0) {
             url: `http://8.140.168.52/api/buy_pet?user_id=${userIdList[num]}&token=${tokenList[num]}&allow_buy=${level}`,
             headers: default_header
         }
+        let allowBuy = true
         $.get(url, async (err, resp, data) => {
             try {
                 const result = JSON.parse(data)
@@ -147,18 +151,17 @@ function cow_buy(num, level, timeout=0) {
                     console.log(`购买牛：${level}级 -》` + result.msg)
                 } else {
                     console.log(`购买牛：${level}级 -》` + result.msg)
-                    // notify.sendNotify("合成失败", result.message);
                     if (result.msg.indexOf("没有空位了") != -1) {
                         await cow_info(num, false)
                     }
                     if (result.msg.indexOf("金币不足") != -1) {
-                        reFlag = true
+                        allowBuy = false
                     }
                 }
             } catch (e) {
                 $.logErr(e, resp);
             } finally {
-                resolve()
+                resolve(allowBuy)
             }
         }, timeout)
     })
@@ -208,13 +211,14 @@ function cow_info(num, showMsg, timeout = 0) {
                         console.log('允许购买等级：' + data.allow_buy)
                         console.log('最大等级：' + data.max_level)
                         console.log('金币增长速度：' + data.total_gold_income)
-                        console.log('------------ 牛信息 ---------------')
+                        console.log('------- 牛信息 ----------')
                         let niu = result.data.niu;
                         for (let index in niu) {
                             if (niu[index].pet_serial_number) {
                                 console.log(`位置：${niu[index].position_serial_number}, 等级：${niu[index].pet_serial_number}`)
                             }
                         }
+                        console.log('------------------------')
                     }
                     buildCowMap(data)
                 } else {
@@ -400,6 +404,33 @@ function steal(num, steal_user_id, timeout = 0) {
     })
 }
 
+// 用户信息
+function attack(num, attack_user_id, timeout = 0) {
+    return new Promise((resolve) => {
+        let url = {
+            url: `http://8.140.168.52/api/attack?user_id=${userIdList[num]}&token=${tokenList[num]}&attack_user_id=${attack_user_id}`,
+            headers: default_header
+        }
+        let allAlong = true
+        $.get(url, (err, resp, data) => {
+            try {
+                const result = JSON.parse(data)
+                if (result.code === 20000) {
+                    console.log(`${result.msg}, 总金币数量：${result.data}`)
+                } else {
+                    allAlong = false
+                    console.log(result.msg)
+                }
+            } catch (e) {
+                $.logErr(e, resp);
+            } finally {
+                resolve(allAlong)
+            }
+        }, timeout)
+    })
+}
+
+
 
 // 用户信息
 function user_home(num, attack_user_id, timeout = 0) {
@@ -465,7 +496,6 @@ function envelope_home(num, timeout = 0) {
                 const result = JSON.parse(data)
                 if (result.code === 20000) {
                     envelope_info = result.data
-                    console.log('\n ' + result.msg)
                 } else {
                     console.log('\n ' + result.msg)
                 }
