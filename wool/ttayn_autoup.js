@@ -44,7 +44,7 @@ let default_header = {
             await $.wait(12377)
             await cow_afk_doubled(num)
         }
-        // todo 清理低级牛
+        // 清理低级牛
         for (const cowKey in cow_map) {
             if (cowKey < buy_level) {
                 let postInfoArr = cow_map[cowKey];
@@ -53,6 +53,15 @@ let default_header = {
                     console.log(`可购买 ${buy_level} 级，开始清理 位置：${postInfo.post}, 等级：${postInfo.level} 的小牛`)
                     await cow_recycle(num, postInfo.post)
                 }
+            }
+        }
+
+        // 收取好友助力
+        let parent = await friendship_home(num);
+        if (parent && parent.length > 0) {
+            console.log(`开始领取直接好友收益：一共 ${parent.length} 份`)
+            for (let parentKey in parent) {
+                await friendship_receive(num, parent[parentKey].friendship_logs_id)
             }
         }
 
@@ -565,6 +574,54 @@ function envelope_obtain(num, group, type, envelope_id, timeout = 0) {
     })
 }
 
+// 查询好友收益信息
+function friendship_home(num, timeout = 0) {
+    return new Promise((resolve) => {
+        let url = {
+            url: `http://8.140.168.52/api/friendship_home?user_id=${userIdList[num]}&token=${tokenList[num]}`,
+            headers: default_header
+        }
+        let parent
+        $.get(url, (err, resp, data) => {
+            try {
+                const result = JSON.parse(data)
+                if (result.code === 20000) {
+                    parent = result.data.parent
+                } else {
+                    console.log('\n ' + result.msg)
+                }
+            } catch (e) {
+                $.logErr(e, resp);
+            } finally {
+                resolve(parent)
+            }
+        }, timeout)
+    })
+}
+
+// 收取好友收益
+function friendship_receive(num, friendship_logs_id, timeout = 0) {
+    return new Promise((resolve) => {
+        let url = {
+            url: `http://8.140.168.52/api/friendship_receive?user_id=${userIdList[num]}&token=${tokenList[num]}&friendship_logs_id=${friendship_logs_id}&type=1`,
+            headers: default_header
+        }
+        $.get(url, (err, resp, data) => {
+            try {
+                const result = JSON.parse(data)
+                if (result.code === 20000) {
+                    console.log(result.msg)
+                } else {
+                    console.log(result.msg)
+                }
+            } catch (e) {
+                $.logErr(e, resp);
+            } finally {
+                resolve()
+            }
+        }, timeout)
+    })
+}
 
 
 
