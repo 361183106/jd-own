@@ -105,7 +105,14 @@ let default_header = {
             if ((length < 1) || (length == 1 && process_map['null'] != null)) {
                 let allowBuy = await cow_buy(num, buy_level);
                 if (!allowBuy) {
-                    break
+                    let price = await video_gold1(num);
+                    if (!price) {
+                        break
+                    } else {
+                        console.log(`等待 30 秒，模拟看视频`)
+                        await $.wait(30157)
+                        await video_gold2(num)
+                    }
                 }
             } else {
                 for (let processMapKey in process_map) {
@@ -618,6 +625,56 @@ function friendship_receive(num, friendship_logs_id, timeout = 0) {
                 const result = JSON.parse(data)
                 if (result.code === 20000) {
                     console.log(result.msg)
+                } else {
+                    console.log(result.msg)
+                }
+            } catch (e) {
+                $.logErr(e, resp);
+            } finally {
+                resolve()
+            }
+        }, timeout)
+    })
+}
+
+// 看视频得金币信息
+function video_gold1(num, timeout = 0) {
+    return new Promise((resolve) => {
+        let url = {
+            url: `http://8.140.168.52/api/video_gold?user_id=${userIdList[num]}&token=${tokenList[num]}&type=1`,
+            headers: default_header
+        }
+        let price
+        $.get(url, (err, resp, data) => {
+            try {
+                const result = JSON.parse(data)
+                if (result.code === 20000) {
+                    price = result.data.price;
+                    console.log(`预计看视频得金币 ${transform(price)}`)
+                } else {
+                    console.log(result.msg)
+                }
+            } catch (e) {
+                $.logErr(e, resp);
+            } finally {
+                resolve(price)
+            }
+        }, timeout)
+    })
+}
+
+// 看视频得金币获取
+function video_gold2(num, timeout = 0) {
+    return new Promise((resolve) => {
+        let url = {
+            url: `http://8.140.168.52/api/video_gold?user_id=${userIdList[num]}&token=${tokenList[num]}&type=2`,
+            headers: default_header
+        }
+        $.get(url, (err, resp, data) => {
+            try {
+                const result = JSON.parse(data)
+                if (result.code === 20000) {
+                    console.log(`看视频得金币已获得 ${transform(result.data)}`)
                 } else {
                     console.log(result.msg)
                 }
