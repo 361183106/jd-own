@@ -1,5 +1,5 @@
 /*
-16,46 * * * * https://gitee.com/misyi/jd-own/raw/master/wool/ttayn_autoup.js, tag=天天爱养牛快速合成, enabled=true
+5 * * * * https://gitee.com/misyi/jd-own/raw/master/wool/ttayn_autoup.js, tag=天天爱养牛快速合成, enabled=true
 
 环境变量：多个账号用|||分割
 ttayn_userid
@@ -43,13 +43,14 @@ let default_header = {
     for (let num = 0; num < userIdList.length; num++) {
         console.log(`\n\n----- 账号 ${num+1} 开始操作 -----`)
         await cow_info(num, true)
+        await $.wait(557)
         await user_home(num)
-        await cow_afk(num)
-        if (afk > 0) {
-            console.log(`有离线金币，等待 30 秒进行翻倍`)
-            await $.wait(30377)
-            await cow_afk_doubled(num)
-        }
+        // await cow_afk(num)
+        // if (afk > 0) {
+        //     console.log(`有离线金币，等待 30 秒进行翻倍`)
+        //     await $.wait(30377)
+        //     await cow_afk_doubled(num)
+        // }
         // 清理低级牛
         for (const cowKey in cow_map) {
             if (cowKey < buy_level) {
@@ -58,104 +59,109 @@ let default_header = {
                     let postInfo = postInfoArr[postInfoArrKey];
                     console.log(`可购买 ${buy_level} 级，开始清理 位置：${postInfo.post}, 等级：${postInfo.level} 的小牛`)
                     await cow_recycle(num, postInfo.post)
+                    await $.wait(557)
                 }
             }
         }
 
         // 收取好友助力
+        await $.wait(557)
         let parent = await friendship_home(num);
         if (parent && parent.length > 0) {
             console.log(`开始领取直接好友收益：一共 ${parent.length} 份`)
             for (let parentKey in parent) {
+                await $.wait(557)
                 await friendship_receive(num, parent[parentKey].friendship_logs_id)
             }
         }
 
         // 转盘
-        await turntables_info(num);
-        if (energy > 0) {
-            console.log(`--- 开始转盘 ---`)
-            for (let energy_count = 0;energy_count<energy;energy_count++) {
-                let info = await turntables_start(num);
-                if (info.turntables_id == 2) {
-                    console.log(`开始攻击`)
-                    let allAlong = true
-                    while (allAlong) {
-                        console.log(`开始作弊，一直攻击！`)
-                        allAlong = await attack(num, info.enemy[0].id)
-                    }
-                }
-                if (info.turntables_id == 4) {
-                    // 偷取能量
-                    console.log(`开始偷取金币`)
-                    let allAlong = true
-                    while (allAlong) {
-                        console.log(`开始作弊，一直偷取！`)
-                        allAlong = await steal(num, info.goal[0].id)
-                    }
-                }
-            }
-        }
+        // await turntables_info(num);
+        // if (energy > 0) {
+        //     console.log(`--- 开始转盘 ---`)
+        //     for (let energy_count = 0;energy_count<energy;energy_count++) {
+        //         let info = await turntables_start(num);
+        //         if (info.turntables_id == 2) {
+        //             console.log(`开始攻击`)
+        //             let allAlong = true
+        //             while (allAlong) {
+        //                 console.log(`开始作弊，一直攻击！`)
+        //                 allAlong = await attack(num, info.enemy[0].id)
+        //             }
+        //         }
+        //         if (info.turntables_id == 4) {
+        //             // 偷取能量
+        //             console.log(`开始偷取金币`)
+        //             let allAlong = true
+        //             while (allAlong) {
+        //                 console.log(`开始作弊，一直偷取！`)
+        //                 allAlong = await steal(num, info.goal[0].id)
+        //             }
+        //         }
+        //     }
+        // }
 
         let count = 1;
         while (true && buy_level) {
-            await $.wait(357)
+            await $.wait(2357)
             // console.log(`开始第 ${count} 波操作！`)
             let length = Object.keys(process_map).length;
             if ((length < 1) || (length == 1 && process_map['null'] != null)) {
                 let allowBuy = await cow_buy(num, buy_level);
                 if (!allowBuy) {
-                    let price = await video_gold1(num);
-                    if (!price) {
-                        break
-                    } else {
-                        console.log(`等待 30 秒，模拟看视频`)
-                        await $.wait(30157)
-                        await video_gold2(num)
-                    }
+                    // let price = await video_gold1(num);
+                    // if (!price) {
+                    break
+                    // } else {
+                    //     console.log(`等待 30 秒，模拟看视频`)
+                    //     await $.wait(30157)
+                    //     await video_gold2(num)
+                    // }
                 }
             } else {
                 for (let processMapKey in process_map) {
                     if (processMapKey && processMapKey != 'null' && process_map[processMapKey]) {
                         let post = process_map[processMapKey];
                         console.log(`合成牛：[${post[0].post}],[${post[1].post}], 合成等级 ${post[0].level+1}`)
+                        await $.wait(557)
                         await cow_upgrade(num, post[0].post, post[1].post)
                     }
                 }
+                await $.wait(557)
                 await cow_info(num, false)
             }
             count++
         }
 
         // 开始领取红包
-        console.log("------ 开始领取红包 ------")
-        let envelope_info = await envelope_home(num);
-        let shengyu_cishu = await get_user_envelope_num(num);
-        console.log(`可领取红包的剩余次数：${shengyu_cishu}`)
-        if (shengyu_cishu > 0) {
-            let worldList = envelope_info.word_group.history_message_list;
-            if (worldList) {
-                console.log(`开始领取世界红包`)
-                let hasRedCount = 0
-                for (let worldKey in worldList.reverse()) {
-                    // 红包状态： 1-已过期 2-待领取 3-已领取
-                    if (worldList[worldKey].status == 2) {
-                        let flag = await envelope_obtain(num, 'all', worldList[worldKey].type, worldList[worldKey].id);
-                        if (!flag) {
-                            console.log(`无法再领取红包，直接跳出！`)
-                            break
-                        }
-                        console.log(`等待 30 秒再领取下一个红包！`)
-                        await $.wait(30278)
-                        hasRedCount++
-                        if (hasRedCount >= 5) {
-                            console.log(`单次运行最多领 5 个红包！`)
-                            break
-                        }
-                    }
-                }
-            }
-        }
+        // console.log("------ 开始领取红包 ------")
+        // let envelope_info = await envelope_home(num);
+        // let shengyu_cishu = await get_user_envelope_num(num);
+        // console.log(`可领取红包的剩余次数：${shengyu_cishu}`)
+        // if (shengyu_cishu > 0) {
+        //     let worldList = envelope_info.word_group.history_message_list;
+        //     if (worldList) {
+        //         console.log(`开始领取世界红包`)
+        //         let hasRedCount = 0
+        //         for (let worldKey in worldList.reverse()) {
+        //             // 红包状态： 1-已过期 2-待领取 3-已领取
+        //             if (worldList[worldKey].status == 2) {
+        //                 let flag = await envelope_obtain(num, 'all', worldList[worldKey].type, worldList[worldKey].id);
+        //                 if (!flag) {
+        //                     console.log(`无法再领取红包，直接跳出！`)
+        //                     break
+        //                 }
+        //                 console.log(`等待 30 秒再领取下一个红包！`)
+        //                 await $.wait(30278)
+        //                 hasRedCount++
+        //                 if (hasRedCount >= 5) {
+        //                     console.log(`单次运行最多领 5 个红包！`)
+        //                     break
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
     }
 })()
     .catch((e) => $.logErr(e))
