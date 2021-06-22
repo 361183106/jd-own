@@ -1,5 +1,5 @@
 /*
-5 * * * * https://gitee.com/misyi/jd-own/raw/master/wool/ttayn_autoup.js, tag=天天爱养牛快速合成, enabled=true
+5/* * * * * https://gitee.com/misyi/jd-own/raw/master/wool/ttayn_autoup.js, tag=天天爱养牛快速合成, enabled=true
 
 环境变量：多个账号用|||分割
 ttayn_userid
