@@ -219,7 +219,4 @@ export_all_codes() {
     done
 }
 
-log_time=$(date "+%Y-%m-%d-%H-%M-%S")
-log_path="$dir_code/$log_time.log"
-make_dir "$dir_code"
-export_all_codes | perl -pe "{s|京东种豆|种豆|; s|crazyJoy任务|疯狂的JOY|}" | tee $log_path
+export_all_codes | perl -pe "{s|京东种豆|种豆|; s|crazyJoy任务|疯狂的JOY|}"
