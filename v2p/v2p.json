@@ -1,0 +1,17 @@
+{
+  "name": "misyi 订阅",
+  "author": "miysi",
+  "desc": "为安卓平台app的脚本定制。该订阅仅适用于 elecV2P，与其他软件并不兼容",
+  "date": "2021-06-27 17:41:41",
+  "list": [
+    {
+      "name": "【misyi】蛋咖",
+      "type": "cron",
+      "time": "0/15 * * * *",
+      "job": {
+        "type": "runjs",
+        "target": "https://ghproxy.com/https://raw.githubusercontent.com/xl2101200/-/main/dk.js"
+      }
+    }
+  ]
+}
