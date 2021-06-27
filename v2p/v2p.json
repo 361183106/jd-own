@@ -7,7 +7,7 @@
     {
       "name": "【misyi】蛋咖",
       "type": "cron",
-      "time": "0/15 * * * *",
+      "time": "*/15 * * * *",
       "job": {
         "type": "runjs",
         "target": "https://ghproxy.com/https://raw.githubusercontent.com/xl2101200/-/main/dk.js"
