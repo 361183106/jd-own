@@ -8,21 +8,10 @@ IOS用户支持京东双账号,NodeJs用户支持N个京东账号
 feedCount:自定义 每次喂养数量; 等级只和喂养次数有关，与数量无关
 推荐每次投喂10个，积累狗粮，然后去玩聚宝盆赌
 Combine from Zero-S1/JD_tools(https://github.com/Zero-S1/JD_tools)
-==========Quantumult X==========
-[task_local]
+
+
 #京东宠汪汪
-15 0-23/2 * * * jd_joy.js, tag=京东宠汪汪, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdcww.png, enabled=true
-
-============Loon===========
-[Script]
-cron "15 0-23/2 * * *" script-path=jd_joy.js,tag=京东宠汪汪
-
-============Surge==========
-[Script]
-京东宠汪汪 = type=cron,cronexp="15 0-23/2 * * *",wake-system=1,timeout=3600,script-path=jd_joy.js
-
-===============小火箭==========
-京东宠汪汪 = type=cron,script-path=jd_joy.js, cronexpr="15 0-23/2 * * *", timeout=3600, enable=true
+15 0-23/2 * * * jd_joynew.js, tag=京东宠汪汪
 */
 ! function(t, r) {
     "object" == typeof exports ? module.exports = exports = r() : "function" == typeof define && define.amd ? define([], r) : t.CryptoJS = r()
