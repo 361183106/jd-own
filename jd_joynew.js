@@ -12,6 +12,7 @@ Combine from Zero-S1/JD_tools(https://github.com/Zero-S1/JD_tools)
 
 #京东宠汪汪
 15 0-23/2 * * * jd_joynew.js, tag=京东宠汪汪
+东宠汪汪 = type=cron,script-path=jd_joy.js, cronexpr="15 0-23/2 * * *", timeout=3600, enable=true
 */
 ! function(t, r) {
     "object" == typeof exports ? module.exports = exports = r() : "function" == typeof define && define.amd ? define([], r) : t.CryptoJS = r()
