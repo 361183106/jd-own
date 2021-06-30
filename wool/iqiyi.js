@@ -26,7 +26,6 @@ export IQIYI_COOKIE=''
 10 7 * * * https://gitee.com/misyi/jd-own/raw/master/wool/iqiyi.js, tag=爱奇艺签到, enabled=true
 */
 const $ = new Env('爱奇艺签到');
-
 var cookie = process.env.IQIYI_COOKIE
 
 var LogDetails = false; // 响应日志
@@ -205,7 +204,9 @@ function nobyda() {
     const notify = (title, subtitle, message) => {
         if (isQuanX) $notify(title, subtitle, message)
         if (isSurge) $notification.post(title, subtitle, message)
-        if (isNode) require('./sendNotify').sendNotify(title, subtitle + message);
+        if (isNode) {
+            try { require('./misyiSendNotify').sendNotify(title, subtitle + message);} catch (e) {return require('./sendNotify').sendNotify(title, subtitle + message);}
+        }
         if (isJSBox) $push.schedule({
             title: title,
             body: subtitle ? subtitle + "\n" + message : message

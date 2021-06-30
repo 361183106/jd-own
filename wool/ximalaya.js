@@ -9,7 +9,7 @@ const $ = new Env('喜马拉雅签到')
 
 let XIMALAYA_COOKIE = process.env.XIMALAYA_COOKIE
 $.signinfo = {}
-const notify = $.isNode() ? require('./sendNotify') : '';
+let notify;try {notify = $.isNode() ? require('./misyiSendNotify') : '';} catch (e) {notify = $.isNode() ? require('./sendNotify') : '';}
 let VAL_signcookie = ''
 let time = new Date().getTime();
 let noticeMessage = '';

@@ -37,9 +37,7 @@ let DD = RT(28000, 35000)
 let accessToken = process.env.cgsd_accessToken,token = process.env.cgsd_token
     ,userid = process.env.cgsd_userid,headers33 = ''
 $.message = ''
-const notify = $.isNode() ? require('./sendNotify') : '';
-
-
+let notify;try {notify = $.isNode() ? require('./misyiSendNotify') : '';} catch (e) {notify = $.isNode() ? require('./sendNotify') : '';}
 
 
 !(async () => {
