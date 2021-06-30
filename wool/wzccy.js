@@ -18,6 +18,9 @@ boxjs地址 ： https://raw.githubusercontent.com/xl2101200/-/main/tom.box.json
 
 v2p配置如下：  CRON ： 0 0 0/1 * * *  一个小时运行一次吧 目前未知上限多少
 
+[task_local]
+0 0 0/1 * * * https://gitee.com/misyi/jd-own/raw/master/wool/wzccy.js, tag=王者猜成语, enabled=true
+
 【REWRITE】
 匹配链接（正则表达式） http://api.pp.tongdongsu.com/idiom-amu-api/bubble
 对应重写目标   https://raw.githubusercontent.com/xl2101200/-/main/wzccy.js
