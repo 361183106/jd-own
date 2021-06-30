@@ -40,10 +40,14 @@ let status;
 status = (status = ($.getval("wzccystatus") || "1") ) > 1 ? `${status}` : ""; // 账号扩展字符
 const wzccyurlArr = [], wzccyhdArr = [],wzccybodyArr = [],wzccy2bodyArr = [],wzccycount = ''
 
-let wzccyurl = $.getdata('wzccyurl')
-let wzccyhd = $.getdata('wzccyhd')
-let wzccybody = $.getdata('wzccybody')
-let wzccy2body = $.getdata('wzccy2body')
+// let wzccyurl = $.getdata('wzccyurl')
+// let wzccyhd = $.getdata('wzccyhd')
+// let wzccybody = $.getdata('wzccybody')
+// let wzccy2body = $.getdata('wzccy2body')
+let wzccyurl = process.env.wzccyurl
+let wzccyhd = process.env.wzccyhd
+let wzccybody = process.env.wzccybody
+let wzccy2body = process.env.wzccy2body
 let b = new Date().getTime()
 let DD = RT(25000,31000)
 let tz = ($.getval('tz') || '1');
@@ -52,20 +56,11 @@ $.message = ''
 
 
 !(async () => {
-  if (typeof $request !== "undefined") {
-    wzccyck()
-   
-  } else {wzccyurlArr.push($.getdata('wzccyurl'))
-    wzccyhdArr.push($.getdata('wzccyhd'))
-    wzccybodyArr.push($.getdata('wzccybody'))
-    wzccy2bodyArr.push($.getdata('wzccy2body'))
+    wzccyurlArr.push(wzccyurl)
+    wzccyhdArr.push(wzccyhd)
+    wzccybodyArr.push(wzccybody)
+    wzccy2bodyArr.push(wzccy2body)
     let wzccycount = ($.getval('wzccycount') || '1');
-  for (let i = 2; i <= wzccycount; i++) {
-    wzccyurlArr.push($.getdata(`wzccyurl${i}`))
-    wzccyhdArr.push($.getdata(`wzccyhd${i}`))
-    wzccybodyArr.push($.getdata(`wzccybody${i}`))
-    wzccy2bodyArr.push($.getdata(`wzccy2body${i}`))
-  }
     console.log(
         `\n\n=============================================== 脚本执行 - 北京时间(UTC+8)：${new Date(
         new Date().getTime() +
@@ -95,7 +90,7 @@ for (let c = 0; c < 30; c++) {
 
   
 
-  }
+
 }}
 message()
 })()
@@ -103,30 +98,6 @@ message()
   .finally(() => $.done())
 
 
-
-function wzccyck() {
-   if ($request.url.indexOf("loadBubble.do") > -1) {
- const wzccyurl = $request.url
-  if(wzccyurl)     $.setdata(wzccyurl,`wzccyurl${status}`)
-    $.log(wzccyurl)
-const wzccybody = $request.body
-  if(wzccybody)     $.setdata(wzccybody,`wzccybody${status}`)
-    $.log(wzccybody)
-
-   $.msg($.name,"",'王者猜成语'+`${status}` +'气泡body获取成功！')
-
-} else if ($request.url.indexOf("receiveBubble.do") > -1) {
-   const wzccy2body = $request.body
-  if(wzccy2body)   $.setdata(wzccy2body,`wzccy2body${status}`)
-  
-    $.log(wzccy2body)
-
-    const wzccyhd = JSON.stringify($request.headers)
-    if(wzccyhd)      $.setdata(wzccyhd,`wzccyhd${status}`)
-  $.log(wzccyhd)
-    $.msg($.name,"",'王者猜成语'+`${status}` +'视频body获取成功！')
-  }
-}
 
 
 
