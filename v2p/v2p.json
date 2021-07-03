@@ -20,6 +20,14 @@
         "type": "runjs",
         "target": "https://ghproxy.com/https://raw.githubusercontent.com/xl2101200/-/main/wzccy.js"
       }
+    },{
+      "name": "【misyi】炎兔",
+      "type": "cron",
+      "time": "12 9 * * *",
+      "job": {
+        "type": "runjs",
+        "target": "https://ghproxy.com/https://raw.githubusercontent.com/xl2101200/-/main/yt.js"
+      }
     }
   ]
 }
