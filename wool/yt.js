@@ -61,6 +61,10 @@ $.message = ''
         ytck()
 
     } else {
+        if (!ytbody) {
+            console.log(`\n【 炎兔 】没有配置账号，直接退出`)
+            return
+        }
         ythdArr.push(ythd)
         ytbodyArr.push(ytbody)
 
@@ -96,11 +100,10 @@ $.message = ''
                 await $.wait(2000)
 
 
-
-
             }
-        }}
-    message()
+        }
+        message()
+    }
 })()
     .catch((e) => $.logErr(e))
     .finally(() => $.done())
