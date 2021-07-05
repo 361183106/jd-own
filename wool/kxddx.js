@@ -13,6 +13,10 @@
 
 获取CK ： 打开软件 → 转盘抽奖 → 看一次视频即可   
 
+
+[task_local]
+20 8 * * * https://gitee.com/misyi/jd-own/raw/master/wool/kxddx.js, tag=开心点点消, enabled=true
+
 /////////////////////////////////////////////////////////////////////////////
 撸了不一定有，不撸肯定没有！
 TG频道 https://t.me/tom_ww     
