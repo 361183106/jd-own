@@ -39,9 +39,13 @@ let status;
 
 status = (status = ($.getval("kxddxstatus") || "1") ) > 1 ? `${status}` : ""; 
 const kxddxurlArr = [],kxddxhdArr = [],kxddxbodyArr = [],kxddxcount = ''
-let kxddxurl = $.getdata('kxddxurl')
-let kxddxhd = $.getdata('kxddxhd')
-let kxddxbody = $.getdata('kxddxbody')
+// let kxddxurl = $.getdata('kxddxurl')
+// let kxddxhd = $.getdata('kxddxhd')
+// let kxddxbody = $.getdata('kxddxbody')
+let kxddxurl = process.env.kxddxurl
+let kxddxhd = process.env.kxddxhd
+let kxddxbody = process.env.kxddxbody
+
 let b = Math.round(new Date().getTime()/1000).toString();
 let DD = RT(31000,41000)
 let tz = ($.getval('tz') || '1'); 
@@ -49,70 +53,60 @@ let id = '',txid = ''
 $.message = ''
 
 
-
-
-
 !(async () => {
-  if (typeof $request !== "undefined") {
-    await kxddxck()
-  } else {kxddxurlArr.push($.getdata('kxddxurl'))
-    kxddxhdArr.push($.getdata('kxddxhd'))
-    kxddxbodyArr.push($.getdata('kxddxbody'))
-
-    let kxddxcount = ($.getval('kxddxcount') || '1');
-  for (let i = 2; i <= kxddxcount; i++) {
-    kxddxurlArr.push($.getdata(`kxddxurl${i}`))
-    kxddxhdArr.push($.getdata(`kxddxhd${i}`))
-    kxddxbodyArr.push($.getdata(`kxddxbody${i}`))
-}
+    kxddxurlArr.push(kxddxurl)
+    kxddxhdArr.push(kxddxhd)
+    kxddxbodyArr.push(kxddxbody)
     console.log(
-`\n\n=============================================== 脚本执行 - 北京时间(UTC+8)：${new Date(
-  new Date().getTime() +
-  new Date().getTimezoneOffset() * 60 * 1000 +
-  8 * 60 * 60 * 1000
-).toLocaleString()} ===============================================\n`);
-  for (let i = 0; i < kxddxhdArr.length; i++) {
-      if (kxddxhdArr[i]) {
-      
-      kxddxurl = kxddxurlArr[i];
-      kxddxhd = kxddxhdArr[i];
-      kxddxbody = kxddxbodyArr[i];
+        `\n\n=============================================== 脚本执行 - 北京时间(UTC+8)：${new Date(
+            new Date().getTime() +
+            new Date().getTimezoneOffset() * 60 * 1000 +
+            8 * 60 * 60 * 1000
+        ).toLocaleString()} ===============================================\n`);
+    for (let i = 0; i < kxddxhdArr.length; i++) {
+        if (kxddxhdArr[i]) {
 
-      $.index = i + 1;
-      console.log(`\n\n开始【开心点点消${$.index}】`)}
+            kxddxurl = kxddxurlArr[i];
+            kxddxhd = kxddxhdArr[i];
+            kxddxbody = kxddxbodyArr[i];
 
-      console.log(`\n随机延迟${DD/1000}秒`)
-      //默认运行20次
-      for (let c = 0; c < 20; c++) {
-        $.index = c + 1
-        console.log(`\n第${c+1}次执行转盘抽奖！`)
+            $.index = i + 1;
+            console.log(`\n\n开始【开心点点消${$.index}】`)
+        }
 
-           await zpsp()
-           await $.wait(DD)
+        console.log(`\n随机延迟${DD / 1000}秒`)
+        //默认运行20次
+        for (let c = 0; c < 20; c++) {
+            $.index = c + 1
+            console.log(`\n第${c + 1}次执行转盘抽奖！`)
 
-      }
-      //默认运行30次
-      for (let x = 0; x < 50; x++) {
-        $.index = x + 1
-        console.log(`\n第${x+1}次收取主页红包气泡！`)
+            await zpsp()
+            await $.wait(DD)
 
-           await zyhb()
-           await $.wait(DD)
+        }
+        //默认运行30次
+        for (let x = 0; x < 50; x++) {
+            $.index = x + 1
+            console.log(`\n第${x + 1}次收取主页红包气泡！`)
 
-      }
-            //默认运行30次
-            for (let z = 0; z < 30; z++) {
-              $.index = z + 1
-              console.log(`\n第${z+1}次收取主页红包！`)
-      
-                 await lhb()
-                 await $.wait(100)
-      
-            }
-      await qd()
+            await zyhb()
+            await $.wait(DD)
 
-message()
-      }}})()
+        }
+        //默认运行30次
+        for (let z = 0; z < 30; z++) {
+            $.index = z + 1
+            console.log(`\n第${z + 1}次收取主页红包！`)
+
+            await lhb()
+            await $.wait(100)
+
+        }
+        await qd()
+
+        message()
+    }
+})()
 
   .catch((e) => $.logErr(e))
   .finally(() => $.done())
@@ -144,7 +138,7 @@ function zpsp(timeout = 0) {
     
 let url = {
       url : `https://lft.wetimetech.com/v1/rotary/lottery`,
-     headers : JSON.parse($.getdata('kxddxhd')),
+     headers : JSON.parse(kxddxhd),
     body : kxddxbody,
 }
       $.post(url, async (err, resp, data) => {
@@ -179,7 +173,7 @@ function qd(timeout = 0) {
     
 let url = {
       url : `https://lft.wetimetech.com/v1/sign/signIn`,
-     headers : JSON.parse($.getdata('kxddxhd')),
+     headers : JSON.parse(kxddxhd),
     body : kxddxbody,
 }
       $.post(url, async (err, resp, data) => {
@@ -216,7 +210,7 @@ function zyhb(timeout = 0) {
     
 let url = {
       url : `https://lft.wetimetech.com/v1/bubble/lottery`,
-     headers : JSON.parse($.getdata('kxddxhd')),
+     headers : JSON.parse(kxddxhd),
     body : kxddxbody,
 }
       $.post(url, async (err, resp, data) => {
