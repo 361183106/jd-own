@@ -301,7 +301,9 @@ async function dealReturn(type, res) {
             if (data.code === 0 && data.data && data.data.result) {
                 console.log(`收取成功，获得：${data.data.result.poolCurrency}`);
             }else{
-                console.log(res);
+                // console.log(res);
+                console.log(`收取失败`);
+
             }
             if(data.code === 0 && data.data && data.data.bizCode === -1002){
                 $.hotFlag = true;
@@ -316,7 +318,9 @@ async function dealReturn(type, res) {
                     console.log(`获得[${res.couponName}]优惠券：${res.usageThreshold} 优惠：${res.quota} 时间：${res.useTimeRange}`);
                 }
             }else{
-                console.log(res);
+                // console.log(res);
+                console.log(`升级失败`);
+
             }
             break;
         case 'olympicgames_getTaskDetail':
@@ -360,7 +364,7 @@ async function dealReturn(type, res) {
                     console.log(`加购成功`);
                 }
             }else{
-                console.log(res);
+                // console.log(res);
                 console.log(`加购失败`);
             }
             break
@@ -376,7 +380,9 @@ async function dealReturn(type, res) {
                 }
                 console.log(data.data.bizMsg);
             }else{
-                console.log(res);
+                // console.log(res);
+                console.log(`助力失败`);
+
             }
             break;
         default:
