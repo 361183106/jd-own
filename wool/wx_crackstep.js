@@ -65,7 +65,8 @@ function updateStep() {
                     if (data) {
                         data = JSON.parse(data);
                         console.log(`${JSON.stringify(data)}`)
-                        notify.sendNotify(phone+`修改微信步数成功 - 步数为： `+step);
+                        let s = phone+'修改微信步数成功 - 步数为： '+step;
+                        notify.sendNotify(s);
                     } else {
                         console.log(`服务器返回空数据`)
                     }
