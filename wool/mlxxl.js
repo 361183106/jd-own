@@ -30,6 +30,7 @@ star.aishichen.com
 
 const $ = new Env('魔力消消乐');
 let status;
+let notify;try {notify = $.isNode() ? require('./misyiSendNotify') : '';} catch (e) {notify = $.isNode() ? require('./sendNotify') : '';}
 
 status = (status = ($.getval("mlxxlstatus") || "1")) > 1 ? `${status}` : "";
 let mlxxlhd = process.env.mlxxlhd
@@ -258,7 +259,7 @@ function tx1(timeout = 0) {
 }
 
 function message() {
-    if (tz == 1) { $.msg($.name, "", $.message) }
+    if(tz == 1){notify.sendNotify($.name, $.message)}
 }
 
 function RT(X, Y) {

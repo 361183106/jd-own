@@ -35,6 +35,8 @@ lft.wetimetech.com
 
 
 const $ = new Env('开心点点消');
+let notify;try {notify = $.isNode() ? require('./misyiSendNotify') : '';} catch (e) {notify = $.isNode() ? require('./sendNotify') : '';}
+
 let status;
 
 status = (status = ($.getval("kxddxstatus") || "1") ) > 1 ? `${status}` : "";
@@ -450,8 +452,8 @@ let url = {
 }
 
 function message() {
-  if(tz == 1){$.msg($.name,"",$.message)}
-  }
+  if(tz == 1){notify.sendNotify($.name, $.message)}
+}
 
 function RT(X, Y) {
     do rt = Math.floor(Math.random() * Y);
