@@ -160,7 +160,7 @@ function mlzyhb(timeout = 0) {
     return new Promise((resolve) => {
 
         let url = {
-            url: `https://lft.wetimetech.com/v1/bubble/lottery`,
+            url: `https://star.aishichen.com/v1/bubble/lottery`,
             headers: JSON.parse(mlxxlhd),
             body: mlxxlbody,
         }
@@ -199,7 +199,7 @@ function tx(timeout = 0) {
     return new Promise((resolve) => {
         hd = (mlxxlhd).replace(/"Content-Length": "\d+"/g, `"Content-Length": "2"`)
         let url = {
-            url: `https://lft.wetimetech.com/v1/wallet/withdrawInfo`,
+            url: `https://star.aishichen.com/v1/wallet/withdrawInfo`,
             headers: JSON.parse(hd),
             body: `{}`,
         }
@@ -234,7 +234,7 @@ function tx1(timeout = 0) {
     return new Promise((resolve) => {
         hd = (mlxxlhd).replace(/"Content-Length": "\d+"/g, `"Keep-Alive","Content-Length": "13"`)
         let url = {
-            url: `https://lft.wetimetech.com/v1/wallet/withdraw`,
+            url: `https://star.aishichen.com/v1/wallet/withdraw`,
             headers: JSON.parse(hd),
             body: `{"coin":${txid}}`,
         }
