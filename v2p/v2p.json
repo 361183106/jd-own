@@ -28,6 +28,14 @@
         "type": "runjs",
         "target": "https://ghproxy.com/https://raw.githubusercontent.com/xl2101200/-/main/yt.js"
       }
+    },{
+      "name": "【misyi】魔力消消乐",
+      "type": "cron",
+      "time": "16 7 * * *",
+      "job": {
+        "type": "runjs",
+        "target": "https://ghproxy.com/https://raw.githubusercontent.com/xl2101200/-/main/mlxxl.js"
+      }
     }
   ]
 }
