@@ -32,10 +32,9 @@ const $ = new Env('魔力消消乐');
 let status;
 
 status = (status = ($.getval("mlxxlstatus") || "1")) > 1 ? `${status}` : "";
-const mlxxlurlArr = [], mlxxlhdArr = [], mlxxlbodyArr = [], mlxxlcount = ''
-let mlxxlurl = process.env.mlxxlurl
 let mlxxlhd = process.env.mlxxlhd
-let mlxxlbody = process.env.mlxxlbody
+let mlxxlbody = '{"is_video":1}'
+let oneHd = ''
 let b = Math.round(new Date().getTime() / 1000).toString();
 let DD = RT(31000, 41000)
 let tz = ($.getval('tz') || '1');
@@ -47,23 +46,18 @@ $.message = ''
 
 
 !(async () => {
+    let hds = mlxxlhd.split("|||");
 
-        mlxxlurlArr.push(mlxxlurl)
-        mlxxlhdArr.push(mlxxlhd)
-        mlxxlbodyArr.push(mlxxlbody)
+
         console.log(
             `\n\n=============================================== 脚本执行 - 北京时间(UTC+8)：${new Date(
                 new Date().getTime() +
                 new Date().getTimezoneOffset() * 60 * 1000 +
                 8 * 60 * 60 * 1000
             ).toLocaleString()} ===============================================\n`);
-        for (let i = 0; i < mlxxlhdArr.length; i++) {
-            if (mlxxlhdArr[i]) {
-
-                mlxxlurl = mlxxlurlArr[i];
-                mlxxlhd = mlxxlhdArr[i];
-                mlxxlbody = mlxxlbodyArr[i];
-
+        for (let i = 0; i < hds.length; i++) {
+            if (hds[i]) {
+                oneHd = hds[i];
                 $.index = i + 1;
                 console.log(`\n\n开始【魔力消消乐${$.index}】`)
             }
@@ -124,7 +118,7 @@ function mlzp(timeout = 0) {
 
         let url = {
             url: `https://star.aishichen.com/v1/rotary/lottery`,
-            headers: JSON.parse(mlxxlhd),
+            headers: JSON.parse(oneHd),
             body: mlxxlbody,
         }
         $.post(url, async (err, resp, data) => {
@@ -161,7 +155,7 @@ function mlzyhb(timeout = 0) {
 
         let url = {
             url: `https://star.aishichen.com/v1/bubble/lottery`,
-            headers: JSON.parse(mlxxlhd),
+            headers: JSON.parse(oneHd),
             body: mlxxlbody,
         }
         $.post(url, async (err, resp, data) => {
@@ -197,7 +191,7 @@ function mlzyhb(timeout = 0) {
 //提现
 function tx(timeout = 0) {
     return new Promise((resolve) => {
-        hd = (mlxxlhd).replace(/"Content-Length": "\d+"/g, `"Content-Length": "2"`)
+        hd = (oneHd).replace(/"Content-Length": "\d+"/g, `"Content-Length": "2"`)
         let url = {
             url: `https://star.aishichen.com/v1/wallet/withdrawInfo`,
             headers: JSON.parse(hd),
@@ -232,7 +226,7 @@ function tx(timeout = 0) {
 //提现
 function tx1(timeout = 0) {
     return new Promise((resolve) => {
-        hd = (mlxxlhd).replace(/"Content-Length": "\d+"/g, `"Keep-Alive","Content-Length": "13"`)
+        hd = (oneHd).replace(/"Content-Length": "\d+"/g, `"Keep-Alive","Content-Length": "13"`)
         let url = {
             url: `https://star.aishichen.com/v1/wallet/withdraw`,
             headers: JSON.parse(hd),

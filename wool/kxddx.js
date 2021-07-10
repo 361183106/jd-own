@@ -37,14 +37,10 @@ lft.wetimetech.com
 const $ = new Env('开心点点消');
 let status;
 
-status = (status = ($.getval("kxddxstatus") || "1") ) > 1 ? `${status}` : ""; 
-const kxddxurlArr = [],kxddxhdArr = [],kxddxbodyArr = [],kxddxcount = ''
-// let kxddxurl = $.getdata('kxddxurl')
-// let kxddxhd = $.getdata('kxddxhd')
-// let kxddxbody = $.getdata('kxddxbody')
-let kxddxurl = process.env.kxddxurl
+status = (status = ($.getval("kxddxstatus") || "1") ) > 1 ? `${status}` : "";
 let kxddxhd = process.env.kxddxhd
-let kxddxbody = process.env.kxddxbody
+let kxddxbody = '{"is_video":1}'
+let oneHd = ''
 
 let b = Math.round(new Date().getTime()/1000).toString();
 let DD = RT(31000,41000)
@@ -54,21 +50,18 @@ $.message = ''
 
 
 !(async () => {
-    kxddxurlArr.push(kxddxurl)
-    kxddxhdArr.push(kxddxhd)
-    kxddxbodyArr.push(kxddxbody)
+
+    let hds = kxddxhd.split("|||");
+
     console.log(
         `\n\n=============================================== 脚本执行 - 北京时间(UTC+8)：${new Date(
             new Date().getTime() +
             new Date().getTimezoneOffset() * 60 * 1000 +
             8 * 60 * 60 * 1000
         ).toLocaleString()} ===============================================\n`);
-    for (let i = 0; i < kxddxhdArr.length; i++) {
-        if (kxddxhdArr[i]) {
-
-            kxddxurl = kxddxurlArr[i];
-            kxddxhd = kxddxhdArr[i];
-            kxddxbody = kxddxbodyArr[i];
+    for (let i = 0; i < hds.length; i++) {
+        if (hds[i]) {
+            oneHd = hds[i];
 
             $.index = i + 1;
             console.log(`\n\n开始【开心点点消${$.index}】`)
@@ -110,24 +103,6 @@ $.message = ''
 
   .catch((e) => $.logErr(e))
   .finally(() => $.done())
-function kxddxck() {
-   if ($request.url.indexOf("lottery") > -1) {
-const kxddxurl = $request.url
-   if(kxddxurl)     $.setdata(kxddxurl,`kxddxurl${status}`)
-   $.log(kxddxurl)
-
-   const kxddxhd = JSON.stringify($request.headers)
-   if(kxddxhd)    $.setdata(kxddxhd,`kxddxhd${status}`)
-$.log(kxddxhd)
-
-const kxddxbody = $request.body
-if(kxddxbody)     $.setdata(kxddxbody,`kxddxbody${status}`)
-  $.log(kxddxbody)
-
- $.msg($.name,"",`开心点点消${status}获取body成功`)
-
-  }
-}
 
 
 
@@ -138,7 +113,7 @@ function zpsp(timeout = 0) {
     
 let url = {
       url : `https://lft.wetimetech.com/v1/rotary/lottery`,
-     headers : JSON.parse(kxddxhd),
+     headers : JSON.parse(oneHd),
     body : kxddxbody,
 }
       $.post(url, async (err, resp, data) => {
@@ -173,7 +148,7 @@ function qd(timeout = 0) {
     
 let url = {
       url : `https://lft.wetimetech.com/v1/sign/signIn`,
-     headers : JSON.parse(kxddxhd),
+     headers : JSON.parse(oneHd),
     body : kxddxbody,
 }
       $.post(url, async (err, resp, data) => {
@@ -210,7 +185,7 @@ function zyhb(timeout = 0) {
     
 let url = {
       url : `https://lft.wetimetech.com/v1/bubble/lottery`,
-     headers : JSON.parse(kxddxhd),
+     headers : JSON.parse(oneHd),
     body : kxddxbody,
 }
       $.post(url, async (err, resp, data) => {
@@ -243,7 +218,7 @@ let url = {
 //领红包
 function lhb(timeout = 0) {
   return new Promise((resolve) => {
-    hd = (kxddxhd).replace(/"Keep-Alive"/g,`"Keep-Alive","Content-Length": "18"`)
+    hd = (oneHd).replace(/"Keep-Alive"/g,`"Keep-Alive","Content-Length": "18"`)
 let url = {
       url : `https://lft.wetimetech.com/v1/click/lottery`,
      headers : JSON.parse(hd),
@@ -284,7 +259,7 @@ let url = {
 //任务视频
 function rw(timeout = 0) {
   return new Promise((resolve) => {
-    hd = (kxddxhd).replace(/"Keep-Alive"/g,`"Keep-Alive","Content-Length": "34"`)
+    hd = (oneHd).replace(/"Keep-Alive"/g,`"Keep-Alive","Content-Length": "34"`)
 let url = {
       url : `https://lft.wetimetech.com/v1/task/dailyTaskReward`,
      headers : JSON.parse(hd),
@@ -325,7 +300,7 @@ let url = {
 //任务视频
 function rw2(timeout = 0) {
   return new Promise((resolve) => {
-    hd = (kxddxhd).replace(/"Keep-Alive"/g,`"Keep-Alive","Content-Length": "34"`)
+    hd = (oneHd).replace(/"Keep-Alive"/g,`"Keep-Alive","Content-Length": "34"`)
 let url = {
       url : `https://lft.wetimetech.com/v1/task/dailyTaskReward`,
      headers : JSON.parse(hd),
@@ -365,7 +340,7 @@ let url = {
 //任务视频
 function rw3(timeout = 0) {
   return new Promise((resolve) => {
-    hd = (kxddxhd).replace(/"Keep-Alive"/g,`"Keep-Alive","Content-Length": "34"`)
+    hd = (oneHd).replace(/"Keep-Alive"/g,`"Keep-Alive","Content-Length": "34"`)
 let url = {
       url : `https://lft.wetimetech.com/v1/task/dailyTaskReward`,
      headers : JSON.parse(hd),
@@ -408,7 +383,7 @@ let url = {
 //提现
 function tx(timeout = 0) {
   return new Promise((resolve) => {
-    hd = (kxddxhd).replace(/"Keep-Alive"/g,`"Keep-Alive","Content-Length": "2"`)
+    hd = (oneHd).replace(/"Keep-Alive"/g,`"Keep-Alive","Content-Length": "2"`)
 let url = {
       url : `https://lft.wetimetech.com/v1/wallet/withdrawInfo`,
       headers : JSON.parse(hd),
@@ -443,7 +418,7 @@ let url = {
 //提现
 function tx1(timeout = 0) {
   return new Promise((resolve) => {
-    hd = (kxddxhd).replace(/"Keep-Alive"/g,`"Keep-Alive","Content-Length": "13"`)
+    hd = (oneHd).replace(/"Keep-Alive"/g,`"Keep-Alive","Content-Length": "13"`)
 let url = {
       url : `https://lft.wetimetech.com/v1/wallet/withdraw`,
      headers : JSON.parse(hd),
