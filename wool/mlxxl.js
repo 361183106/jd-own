@@ -73,8 +73,8 @@ $.message = ''
                 await $.wait(DD)
 
             }
-            //默认运行30次
-            for (let x = 0; x < 30; x++) {
+            //默认运行40次
+            for (let x = 0; x < 40; x++) {
                 $.index = x + 1
                 console.log(`\n第${x + 1}次收取主页红包气泡！`)
 
