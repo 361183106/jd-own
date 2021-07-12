@@ -36,6 +36,14 @@
         "type": "runjs",
         "target": "https://ghproxy.com/https://raw.githubusercontent.com/xl2101200/-/main/mlxxl.js"
       }
+    },{
+      "name": "【misyi】永晨宝",
+      "type": "cron",
+      "time": "22 7 * * *",
+      "job": {
+        "type": "runjs",
+        "target": "https://ghproxy.com/https://raw.githubusercontent.com/xl2101200/-/main/ycb.js"
+      }
     }
   ]
 }
