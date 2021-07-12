@@ -37,7 +37,7 @@ let DD = RT(28000, 35000)
 let accessToken = process.env.cgsd_accessToken,token = process.env.cgsd_token
     ,userid = process.env.cgsd_userid,headers33 = ''
 $.message = ''
-let notify;try {notify = $.isNode() ? require('./misyiSendNotify') : '';} catch (e) {notify = $.isNode() ? require('./sendNotify') : '';}
+let notify;if (process.env.MISYI_DD_BOT_TOKEN && process.env.MISYI_DD_BOT_SECRET) {notify = require('./misyiSendNotify');} else {notify = require('./sendNotify');}
 
 
 !(async () => {

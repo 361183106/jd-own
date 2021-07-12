@@ -20,7 +20,7 @@ export zduoduohd=''
 
 */
 const $ = new Env('赚多多');
-let notify;try {notify = $.isNode() ? require('./misyiSendNotify') : '';} catch (e) {notify = $.isNode() ? require('./sendNotify') : '';}
+let notify;if (process.env.MISYI_DD_BOT_TOKEN && process.env.MISYI_DD_BOT_SECRET) {notify = require('./misyiSendNotify');} else {notify = require('./sendNotify');}
 let status;
 status = (status = ($.getval("zduoduostatus") || "1")) > 1 ? `${status}` : ""; // 账号扩展字符
 

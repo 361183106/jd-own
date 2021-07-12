@@ -51,7 +51,7 @@ let DD = RT(30000,40000)
 let tz = ($.getval('tz') || '1');
 let sign = '',id = process.env.ytid, token = ''
 let mm = 'eW91ZGlhbm1vYmlsZTp5dW4yMDE5Vmlw';
-let notify;try {notify = $.isNode() ? require('./misyiSendNotify') : '';} catch (e) {notify = $.isNode() ? require('./sendNotify') : '';}
+let notify;if (process.env.MISYI_DD_BOT_TOKEN && process.env.MISYI_DD_BOT_SECRET) {notify = require('./misyiSendNotify');} else {notify = require('./sendNotify');}
 
 $.message = ''
 
