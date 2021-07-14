@@ -34,7 +34,7 @@ const $ = new Env('红包视频');
 let status;
 status = (status = ($.getval("hbspstatus") || "1")) > 1 ? `${status}` : ""; // 账号扩展字符
 let hbsphd = process.env.hbsphd;
-let hbspbody = process.env.hbspbody;
+let hbspbody = '{"Content-Type":"application/x-www-form-urlencoded","Host":"hbapi.qudianyue.com","Connection":"Keep-Alive","Accept-Encoding":"gzip","User-Agent":"okhttp/3.10.0"}';
 let times = new Date().getTime();
 let DD = RT(60000, 100000);
 let tz = ($.getval('tz') || '1');
@@ -43,7 +43,6 @@ $.message = ''
 
 !(async () => {
     let hbsphds = hbsphd.split("|||");
-    let bodys = hbspbody.split("|||");
         console.log(
             `\n\n=============================================== 脚本执行 - 北京时间(UTC+8)：${new Date(
                 new Date().getTime() +
@@ -55,7 +54,6 @@ $.message = ''
         for (let i = 0; i < hbsphds.length; i++) {
             if (hbsphds[i]) {
                 hbsphd = hbsphds[i];
-                hbspbody = bodys[i];
                 $.index = i + 1;
                 console.log(`\n【 红包视频 账号${$.index} 】`)
 
