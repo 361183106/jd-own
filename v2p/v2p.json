@@ -44,6 +44,14 @@
         "type": "runjs",
         "target": "https://ghproxy.com/https://raw.githubusercontent.com/xl2101200/-/main/ycb.js"
       }
+    },{
+      "name": "【misyi】红包",
+      "type": "cron",
+      "time": "*/10 * * * *",
+      "job": {
+        "type": "runjs",
+        "target": "https://ghproxy.com/https://raw.githubusercontent.com/xl2101200/-/main/hbsp.js"
+      }
     }
   ]
 }
