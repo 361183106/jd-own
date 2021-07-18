@@ -12,7 +12,7 @@ TG频道 https://t.me/tom_ww
 
 
 [task_local]
-*\/10 * * * *  hbsp.js, tag=红包视频, enabled=true
+*\/10 8-21 * * *  hbsp.js, tag=红包视频, enabled=true
 
 boxjs地址 ： https://raw.githubusercontent.com/xl2101200/-/main/tom.box.json
 /////////////////////////////////////////////////////////////////////////////
