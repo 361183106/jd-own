@@ -36,8 +36,8 @@ $.showLog = $.getdata("cfd_showLog") ? $.getdata("cfd_showLog") === "true" : fal
 $.notifyTime = $.getdata("cfd_notifyTime");
 $.result = [];
 $.shareCodes = [
-'',
-'',
+'B5938858F8F23F92F41D2A4B3B8352EBDDA5A45DD2BEA423B66D84023EF0448D',
+'327BC3A2EA3B7259F94F5CC1D3F1C739C8AF89B752A3C5AE09623A113CE417D0',
 '',
 ''
 ];
