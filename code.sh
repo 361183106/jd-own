@@ -36,19 +36,19 @@ var_name=(
 )
 
 name_js=(
-  panghu999_jd_scripts_jd_fruit
-  panghu999_jd_scripts_jd_pet
-  panghu999_jd_scripts_jd_plantBean
-  panghu999_jd_scripts_jd_dreamFactory
-  panghu999_jd_scripts_jd_jdfactory
-  panghu999_jd_scripts_jd_jdzz
-  panghu999_jd_scripts_jd_crazy_joy
-  panghu999_jd_scripts_jd_jxnc
-  panghu999_jd_scripts_jd_bookshop
-  panghu999_jd_scripts_jd_cash
-  panghu999_jd_scripts_jd_sgmh
-  panghu999_jd_scripts_jd_cfd
-  panghu999_jd_scripts_jd_health
+   Annyoo2021_scripts_jd_fruit
+   Annyoo2021_scripts_jd_pet
+   Annyoo2021_scripts_jd_plantBean
+   Annyoo2021_scripts_jd_dreamFactory
+   Annyoo2021_scripts_jd_jdfactory
+   Annyoo2021_scripts_jd_jdzz
+   Annyoo2021_scripts_jd_crazy_joy
+   Annyoo2021_scripts_jd_jxnc
+   Annyoo2021_scripts_jd_bookshop
+   Annyoo2021_scripts_jd_cash
+   Annyoo2021_scripts_jd_sgmh
+   Annyoo2021_scripts_jd_cfd
+   Annyoo2021_scripts_jd_health
 )
 
 name_config=(
