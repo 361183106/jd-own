@@ -86,6 +86,7 @@ name_chinese=(
 gen_pt_pin_array() {
   local envs=$(eval echo "\$JD_COOKIE")
   local array=($(echo $envs | sed 's/&/ /g'))
+  user_sum="${#array[*]}"
   local tmp1 tmp2 i pt_pin_temp
   for i in "${!array[@]}"; do
     pt_pin_temp=$(echo ${array[i]} | perl -pe "{s|.*pt_pin=([^; ]+)(?=;?).*|\1|; s|%|\\\x|g}")
@@ -197,7 +198,7 @@ export_codes_sub() {
 
 export_all_codes() {
     gen_pt_pin_array
-    echo -e "\n# 从日志提取互助码，编号和配置文件中Cookie编号完全对应，如果为空就是所有日志中都没有。\n\n# 即使某个MyXxx变量未赋值，也可以将其变量名填在ForOtherXxx中，jtask脚本会自动过滤空值。\n"
+    echo -e "\n# 从日志提取互助码，如果为空就是所有日志中都没有。\n"
     echo -n "# 你选择的互助码模板为："
     case $HelpType in
     0)
@@ -220,3 +221,35 @@ export_all_codes() {
 }
 
 export_all_codes | perl -pe "{s|京东种豆|种豆|; s|crazyJoy任务|疯狂的JOY|}"
+
+combine_sub() {
+    local what_combine=$1
+    local combined_all=""
+    local tmp1 tmp2
+    local envs=$(eval echo "\$JD_COOKIE")
+    local array=($(echo $envs | sed 's/&/ /g'))
+    local user_sum=${#array[*]}
+    for ((i = 1; i <= $user_sum; i++)); do
+        local tmp1=$what_combine$i
+        local tmp2=${!tmp1}
+        combined_all="$combined_all&$tmp2"
+    done
+    echo $combined_all | perl -pe "{s|^&||; s|^@+||; s|&@|&|g; s|@+&|&|g; s|@+|@|g; s|@+$||}"
+}
+
+## 正常依次运行时，组合所有账号的Cookie与互助码
+combine_all() {
+    echo -e "\n## 互助变量："
+    for ((i = 0; i < ${#env_name[*]}; i++)); do
+        result=$(combine_sub ${var_name[i]})
+        if [[ $result ]]; then
+            echo "export ${env_name[i]}=\"$result\""
+        fi
+    done
+}
+
+if [[ $(ls $dir_code) ]]; then
+    latest_log=$(ls -r $dir_code | head -1)
+    . $dir_code/$latest_log
+    combine_all
+fi
