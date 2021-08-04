@@ -36,19 +36,19 @@ var_name=(
 )
 
 name_js=(
-   Annyoo2021_scripts_jd_fruit
-   Annyoo2021_scripts_jd_pet
-   Annyoo2021_scripts_jd_plantBean
-   Annyoo2021_scripts_jd_dreamFactory
-   Annyoo2021_scripts_jd_jdfactory
-   Annyoo2021_scripts_jd_jdzz
-   Annyoo2021_scripts_jd_crazy_joy
-   Annyoo2021_scripts_jd_jxnc
-   Annyoo2021_scripts_jd_bookshop
-   Annyoo2021_scripts_jd_cash
-   Annyoo2021_scripts_jd_sgmh
-   Annyoo2021_scripts_jd_cfd
-   Annyoo2021_scripts_jd_health
+   shufflewzc_faker2_jd_fruit
+   shufflewzc_faker2_jd_pet
+   shufflewzc_faker2_jd_plantBean
+   shufflewzc_faker2_jd_dreamFactory
+   shufflewzc_faker2_jd_jdfactory
+   shufflewzc_faker2_jd_jdzz
+   shufflewzc_faker2_jd_crazy_joy
+   shufflewzc_faker2_jd_jxnc
+   shufflewzc_faker2_jd_bookshop
+   shufflewzc_faker2_jd_cash
+   shufflewzc_faker2_jd_sgmh
+   shufflewzc_faker2_jd_cfd
+   shufflewzc_faker2_jd_health
 )
 
 name_config=(
@@ -223,7 +223,7 @@ export_all_codes() {
 export_all_codes | perl -pe "{s|京东种豆|种豆|; s|crazyJoy任务|疯狂的JOY|}"
 
 combine_sub() {
-    local what_combine=$1
+    local what_combine=$1shufflewzc_faker2
     local combined_all=""
     local tmp1 tmp2
     local envs=$(eval echo "\$JD_COOKIE")
