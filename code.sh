@@ -137,7 +137,7 @@ name_js=(
   "$repo"_jd_health
   "$repo"_jd_carnivalcity
   "$repo"_jd_city
-  "$repo"_jd_moneyTree_heip
+  "$repo"_jd_moneyTree
 )
 
 name_config=(
