@@ -36,6 +36,13 @@ def getitem(key):
     item = json.loads(r.text)["data"]
     return item
 
+def getckitem(key):
+    url = "http://127.0.0.1:5700/api/envs?searchValue=JD_COOKIE&t=%s" % gettimestamp()
+    r = s.get(url)
+    for i in json.loads(r.text)["data"]:
+        if key in i["value"]:
+            return i
+    return []
 
 def wstopt(wskey):
     try:
@@ -97,9 +104,9 @@ if __name__ == '__main__':
             print("第%s个wskey发生了未知错误" % count)
         else:
             ptpin = re.findall(r"pt_pin=(.*?);", ptck)[0]
-            item = getitem("pt_pin=" + ptpin)
+            item = getckitem("pt_pin=" + ptpin)
             if item != []:
-                qlid = item[0]["_id"]
+                qlid = item["_id"]
                 if update(ptck, qlid):
                     print("第%s个wskey更新成功" % count)
                 else:
