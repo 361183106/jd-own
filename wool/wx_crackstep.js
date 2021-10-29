@@ -7,7 +7,7 @@
 
 
 const $ = new Env('微信步数');
-let notify;if (process.env.MISYI_DD_BOT_TOKEN && process.env.MISYI_DD_BOT_SECRET) {notify = require('./misyiSendNotify');} else {notify = require('./sendNotify');}
+let notify;if (process.env.MISYI_DD_BOT_TOKEN && process.env.MISYI_DD_BOT_SECRET) {notify = require('./utils/misyiSendNotify');} else {notify = require('./sendNotify');}
 
 
 let phone = process.env.xmyd_phone

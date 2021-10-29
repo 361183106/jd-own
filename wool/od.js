@@ -7,7 +7,7 @@
 const baseURI = "https://od.zsqc68.com/index/api/"
 const axios = require("axios")
 const odStr = process.env.odStr
-let notify;if (process.env.MISYI_DD_BOT_TOKEN && process.env.MISYI_DD_BOT_SECRET) {notify = require('./misyiSendNotify');} else {notify = require('./sendNotify');}
+let notify;if (process.env.MISYI_DD_BOT_TOKEN && process.env.MISYI_DD_BOT_SECRET) {notify = require('./utils/misyiSendNotify');} else {notify = require('./sendNotify');}
 
 function get(api, data) {
     return new Promise(async (resolve) => {

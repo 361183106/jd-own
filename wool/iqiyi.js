@@ -205,7 +205,7 @@ function nobyda() {
         if (isQuanX) $notify(title, subtitle, message)
         if (isSurge) $notification.post(title, subtitle, message)
         if (isNode) {
-            try { require('./misyiSendNotify').sendNotify(title, subtitle + message);} catch (e) {return require('./sendNotify').sendNotify(title, subtitle + message);}
+            try { require('./utils/misyiSendNotify').sendNotify(title, subtitle + message);} catch (e) {return require('./sendNotify').sendNotify(title, subtitle + message);}
         }
         if (isJSBox) $push.schedule({
             title: title,

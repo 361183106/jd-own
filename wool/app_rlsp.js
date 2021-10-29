@@ -34,7 +34,7 @@ export user_id=''
 
 
 const $ = new Env('燃旅视频');
-let notify;if (process.env.MISYI_DD_BOT_TOKEN && process.env.MISYI_DD_BOT_SECRET) {notify = require('./misyiSendNotify');} else {notify = require('./sendNotify');}
+let notify;if (process.env.MISYI_DD_BOT_TOKEN && process.env.MISYI_DD_BOT_SECRET) {notify = require('./utils/misyiSendNotify');} else {notify = require('./sendNotify');}
 const logs = 0 //响应日志开关,默认关闭
 let subTitle = ``
 let apptz = process.env.Rl_apptz//是否推送，默认true

@@ -30,7 +30,7 @@ star.aishichen.com
 
 const $ = new Env('魔力消消乐');
 let status;
-let notify;if (process.env.MISYI_DD_BOT_TOKEN && process.env.MISYI_DD_BOT_SECRET) {notify = require('./misyiSendNotify');} else {notify = require('./sendNotify');}
+let notify;if (process.env.MISYI_DD_BOT_TOKEN && process.env.MISYI_DD_BOT_SECRET) {notify = require('./utils/misyiSendNotify');} else {notify = require('./sendNotify');}
 
 status = (status = ($.getval("mlxxlstatus") || "1")) > 1 ? `${status}` : "";
 let mlxxlhd = process.env.mlxxlhd

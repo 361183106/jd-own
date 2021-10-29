@@ -35,7 +35,7 @@ export DT_t10=false
 
 
 const $ = new Env('答题全明星');
-let notify;if (process.env.MISYI_DD_BOT_TOKEN && process.env.MISYI_DD_BOT_SECRET) {notify = require('./misyiSendNotify');} else {notify = require('./sendNotify');}
+let notify;if (process.env.MISYI_DD_BOT_TOKEN && process.env.MISYI_DD_BOT_SECRET) {notify = require('./utils/misyiSendNotify');} else {notify = require('./sendNotify');}
 const logs = 0 //响应日志开关,默认关闭
 let subTitle = ``
 let apptyq = process.env.tyq//是否填邀请，默认true
