@@ -2,10 +2,7 @@
 采用大佬的 qinglong 项目 
 配合自用脚本
 
-# wool 包教程
-## [天天爱养牛](./doc/ttayn.md) [已凉，脚本会导致账号被禁]
-
-
+ql repo https://gitee.com/misyi/jd-own.git "jd_|jx_|wool" "backup|disabled|lxk|doc|v2p" "^jd[^_]|utils"
 # 自用脚本配置
 
 ```text
