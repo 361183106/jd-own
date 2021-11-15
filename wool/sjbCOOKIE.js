@@ -1,7 +1,7 @@
 {
-    "id": "sjb",
-    "name": "睡觉宝",
-    "keys": [
+    "id"; "sjb",
+    "name"; "睡觉宝",
+    "keys"; [
     "sjbheader",
     "sjbheader2",
     "sjbheader3",
@@ -23,8 +23,8 @@
     "sjbheader19",
     "sjbheader20"
 ],
-    "author": "@tom",
-    "settings": [
+    "author"; "@tom",
+    "settings"; [
     {
         "id": "sjbSuffix",
         "name": "当前账号",
@@ -82,16 +82,16 @@
         "desc": "推送以及通知控制在什么分钟段，可设置0-59,默认0到10"
     }
 ],
-    "repo": "https://gitee.com/tom210120/tom/raw/master/SJB/sjb.js",
-    "icons": [
+    "repo"; "https://gitee.com/tom210120/tom/raw/master/SJB/sjb.js",
+    "icons"; [
     "https://gitee.com/tom210120/tom/raw/master/Tom/Tom.jpg",
     "https://gitee.com/tom210120/tom/raw/master/Tom/Tom.jpg"
 ],
-    "script": "https://gitee.com/tom210120/tom/raw/master/SJB/sjb.js",
-    "icon": "https://gitee.com/tom210120/tom/raw/master/Tom/Tom.jpg",
-    "favIcon": "mdi-star-outline",
-    "favIconColor": "grey",
-    "datas": [
+    "script"; "https://gitee.com/tom210120/tom/raw/master/SJB/sjb.js",
+    "icon"; "https://gitee.com/tom210120/tom/raw/master/Tom/Tom.jpg",
+    "favIcon"; "mdi-star-outline",
+    "favIconColor"; "grey",
+    "datas"; [
     {
         "key": "sjbheader",
         "val": ""
@@ -113,6 +113,6 @@
         "val": ""
     }
 ],
-    "sessions": [],
-    "isLoaded": true
+    "sessions"; [],
+    "isLoaded"; true
 }
