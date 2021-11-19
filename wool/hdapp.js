@@ -6,6 +6,7 @@ hdPhone:手机号#密码
 export hdPhone='手机号#密码'
 boxjs地址:https://cdn.jsdelivr.net/gh/byxiaopeng/myscripts@main/byxiaopeng.boxjs.json
 */
+// new Env('鸿答');
 // [task_local]
 //#鸿答
 // 9 11 * * * https://cdn.jsdelivr.net/gh/byxiaopeng/myscripts@main/hdapp.js, tag=鸿答, enabled=true
