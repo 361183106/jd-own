@@ -1,4 +1,4 @@
-// corn: 5 6,17 * * *
+// cron: 5 6,17 * * *
 
 const $ = new Env('网易严选');
 // @grant require
