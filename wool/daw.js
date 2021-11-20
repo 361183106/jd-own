@@ -1,4 +1,5 @@
-// 0 0,1 * * *
+// new Env('都爱玩');
+// cron: 0 0,1 * * *
 const $ = new Env('都爱玩');
 const notify = $.isNode() ? require('./sendNotify') : '';
 let app_soy_daw_token=[],app_soy_daw_UA=[]
