@@ -1,7 +1,7 @@
 /*
  cron "0 0/10 * * * ?" ql_aiqichaShop.js
 
- 爱妻查商城监控
+ 爱企查商城监控
  多商品请用逗号分割 格式:AQ03006,AQ03007,AQ03008 青龙变量aqcGood
  默认定时每一个小时 如需自定义请自己设置cron
 
@@ -13,9 +13,9 @@
 
  仓库地址:https://github.com/WindFgg/Scripts
 */
-const $ = new Env("爱妻查商城监控");
+const $ = new Env("爱企查商城监控");
 const axios = require("axios")
-const notify = $.isNode() ? require("./sendNotify") : "";
+let notify;if (process.env.MISYI_DD_BOT_TOKEN && process.env.MISYI_DD_BOT_SECRET) {notify = require('./utils/misyiSendNotify');} else {notify = require('./sendNotify');}
 aqcookie = $.isNode() ? process.env.aqcCookies : "";
 aqcGoods = $.isNode() ? process.env.aqcGood : "";
 aqcookieArr = [];
